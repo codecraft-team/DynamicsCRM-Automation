@@ -1,0 +1,46 @@
+﻿{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "Name": {
+        "type": "string"
+      },
+      "DiscoveryUrl": {
+        "type": "string"
+      },
+      "UserName": {
+        "type": "string"
+      },
+      "Password": {
+        "type": "string"
+      },
+      "Organizations": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "Name": {
+              "type": "string"
+            },
+            "ConnectionString": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "Name",
+            "ConnectionString"
+          ]
+        }
+      }
+    },
+    "required": [
+      "Name",
+      "DiscoveryUrl",
+      "UserName",
+      "Password",
+      "Organizations"
+    ]
+  }
+}

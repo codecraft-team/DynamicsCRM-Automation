@@ -1,0 +1,407 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{69BCAFDD-E5B6-4DA5-A15F-2BBED2B170EA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PowerShellLibrary.Crm.CmdletProviders</RootNamespace>
+    <AssemblyName>PowerShellLibrary.Crm.CmdletProviders</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\artifacts\DynamicsCRM-PSLibrary\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>True</CodeContractsRedundantAssumptions>
+    <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
+    <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsMissingPublicEnsuresAsWarnings>False</CodeContractsMissingPublicEnsuresAsWarnings>
+    <CodeContractsInferRequires>True</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferEnsuresAutoProperties>True</CodeContractsInferEnsuresAutoProperties>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestAssumptionsForCallees>False</CodeContractsSuggestAssumptionsForCallees>
+    <CodeContractsSuggestRequires>False</CodeContractsSuggestRequires>
+    <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsSQLServerOption />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\artifacts\DynamicsCRM-PSLibrary\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeContractsEnableRuntimeChecking>True</CodeContractsEnableRuntimeChecking>
+    <CodeContractsRuntimeOnlyPublicSurface>False</CodeContractsRuntimeOnlyPublicSurface>
+    <CodeContractsRuntimeThrowOnFailure>True</CodeContractsRuntimeThrowOnFailure>
+    <CodeContractsRuntimeCallSiteRequires>False</CodeContractsRuntimeCallSiteRequires>
+    <CodeContractsRuntimeSkipQuantifiers>False</CodeContractsRuntimeSkipQuantifiers>
+    <CodeContractsRunCodeAnalysis>False</CodeContractsRunCodeAnalysis>
+    <CodeContractsNonNullObligations>True</CodeContractsNonNullObligations>
+    <CodeContractsBoundsObligations>True</CodeContractsBoundsObligations>
+    <CodeContractsArithmeticObligations>True</CodeContractsArithmeticObligations>
+    <CodeContractsEnumObligations>True</CodeContractsEnumObligations>
+    <CodeContractsRedundantAssumptions>True</CodeContractsRedundantAssumptions>
+    <CodeContractsAssertsToContractsCheckBox>True</CodeContractsAssertsToContractsCheckBox>
+    <CodeContractsRedundantTests>True</CodeContractsRedundantTests>
+    <CodeContractsMissingPublicRequiresAsWarnings>True</CodeContractsMissingPublicRequiresAsWarnings>
+    <CodeContractsMissingPublicEnsuresAsWarnings>False</CodeContractsMissingPublicEnsuresAsWarnings>
+    <CodeContractsInferRequires>True</CodeContractsInferRequires>
+    <CodeContractsInferEnsures>False</CodeContractsInferEnsures>
+    <CodeContractsInferEnsuresAutoProperties>True</CodeContractsInferEnsuresAutoProperties>
+    <CodeContractsInferObjectInvariants>False</CodeContractsInferObjectInvariants>
+    <CodeContractsSuggestAssumptions>False</CodeContractsSuggestAssumptions>
+    <CodeContractsSuggestAssumptionsForCallees>False</CodeContractsSuggestAssumptionsForCallees>
+    <CodeContractsSuggestRequires>False</CodeContractsSuggestRequires>
+    <CodeContractsNecessaryEnsures>True</CodeContractsNecessaryEnsures>
+    <CodeContractsSuggestObjectInvariants>False</CodeContractsSuggestObjectInvariants>
+    <CodeContractsSuggestReadonly>True</CodeContractsSuggestReadonly>
+    <CodeContractsRunInBackground>True</CodeContractsRunInBackground>
+    <CodeContractsShowSquigglies>True</CodeContractsShowSquigglies>
+    <CodeContractsUseBaseLine>False</CodeContractsUseBaseLine>
+    <CodeContractsEmitXMLDocs>False</CodeContractsEmitXMLDocs>
+    <CodeContractsCustomRewriterAssembly />
+    <CodeContractsCustomRewriterClass />
+    <CodeContractsLibPaths />
+    <CodeContractsExtraRewriteOptions />
+    <CodeContractsExtraAnalysisOptions />
+    <CodeContractsSQLServerOption />
+    <CodeContractsBaseLineFile />
+    <CodeContractsCacheAnalysisResults>True</CodeContractsCacheAnalysisResults>
+    <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
+    <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
+    <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
+    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
+    <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.CrmSdk.CoreTools.8.1.0.2\content\bin\coretools\Microsoft.Crm.Sdk.Proxy.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=2.18.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.CrmSdk.CoreTools.8.1.0.2\content\bin\coretools\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms, Version=2.18.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.CrmSdk.CoreTools.8.1.0.2\content\bin\coretools\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xrm.Sdk, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.CrmSdk.CoreTools.8.1.0.2\content\bin\coretools\Microsoft.Xrm.Sdk.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xrm.Sdk.Deployment, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.CrmSdk.CoreTools.8.1.0.2\content\bin\coretools\Microsoft.Xrm.Sdk.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Xrm.Tooling.Connector, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.CrmSdk.CoreTools.8.1.0.2\content\bin\coretools\Microsoft.Xrm.Tooling.Connector.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json.Schema, Version=2.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.Schema.2.0.3\lib\net45\Newtonsoft.Json.Schema.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Activities" />
+    <Reference Include="System.Activities.Presentation" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.DirectoryServices.AccountManagement" />
+    <Reference Include="System.IdentityModel" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\System.Management.Automation.dll.10.0.10586.0\lib\net40\System.Management.Automation.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Workflow.Activities" />
+    <Reference Include="System.Workflow.ComponentModel" />
+    <Reference Include="System.Workflow.Runtime" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Adapters\CachedDiscoveryServiceAdapter.cs" />
+    <Compile Include="Adapters\CachedOrganizationServiceAdapter.cs" />
+    <Compile Include="CrmDriveParameter.cs" />
+    <Compile Include="CrmDriveInfo.cs" />
+    <Compile Include="DynamicsCrmCmdletProvider.cs" />
+    <Compile Include="Adapters\DiscoveryServiceAdapter.cs" />
+    <Compile Include="DataType\AssemblyIsolationMode.cs" />
+    <Compile Include="DataType\ComponentType.cs" />
+    <Compile Include="DataType\Generated\AsyncOperation.cs" />
+    <Compile Include="DataType\Generated\AsyncOperationState.cs" />
+    <Compile Include="DataType\Generated\BusinessUnit.cs" />
+    <Compile Include="DataType\Generated\BusinessUnitNewsArticle.cs" />
+    <Compile Include="DataType\Generated\ConnectionRole.cs" />
+    <Compile Include="DataType\Generated\ConnectionRoleAssociation.cs" />
+    <Compile Include="DataType\Generated\ConnectionRoleObjectTypeCode.cs" />
+    <Compile Include="DataType\Generated\ConnectionRoleState.cs" />
+    <Compile Include="DataType\Generated\CustomerOpportunityRole.cs" />
+    <Compile Include="DataType\Generated\FieldSecurityProfile.cs" />
+    <Compile Include="DataType\Generated\ImportJob.cs" />
+    <Compile Include="DataType\Generated\IncidentResolution.cs" />
+    <Compile Include="DataType\Generated\IncidentResolutionState.cs" />
+    <Compile Include="DataType\Generated\msdyusd_actioncallworkflow.cs" />
+    <Compile Include="DataType\Generated\msdyusd_actioncallworkflowState.cs" />
+    <Compile Include="DataType\Generated\PluginAssembly.cs" />
+    <Compile Include="DataType\Generated\PluginTraceLog.cs" />
+    <Compile Include="DataType\Generated\PluginType.cs" />
+    <Compile Include="DataType\Generated\PluginTypeStatistic.cs" />
+    <Compile Include="DataType\Generated\Publisher.cs" />
+    <Compile Include="DataType\Generated\PublisherAddress.cs" />
+    <Compile Include="DataType\Generated\RelationshipRole.cs" />
+    <Compile Include="DataType\Generated\RelationshipRoleMap.cs" />
+    <Compile Include="DataType\Generated\RelationshipRoleState.cs" />
+    <Compile Include="DataType\Generated\Role.cs" />
+    <Compile Include="DataType\Generated\RolePrivileges.cs" />
+    <Compile Include="DataType\Generated\RoleTemplatePrivileges.cs" />
+    <Compile Include="DataType\Generated\SdkMessage.cs" />
+    <Compile Include="DataType\Generated\SdkMessageFilter.cs" />
+    <Compile Include="DataType\Generated\SdkMessagePair.cs" />
+    <Compile Include="DataType\Generated\SdkMessageProcessingStep.cs" />
+    <Compile Include="DataType\Generated\SdkMessageProcessingStepImage.cs" />
+    <Compile Include="DataType\Generated\SdkMessageProcessingStepSecureConfig.cs" />
+    <Compile Include="DataType\Generated\SdkMessageProcessingStepState.cs" />
+    <Compile Include="DataType\Generated\SdkMessageRequest.cs" />
+    <Compile Include="DataType\Generated\SdkMessageRequestField.cs" />
+    <Compile Include="DataType\Generated\SdkMessageResponse.cs" />
+    <Compile Include="DataType\Generated\SdkMessageResponseField.cs" />
+    <Compile Include="DataType\Generated\ServiceEndpoint.cs" />
+    <Compile Include="DataType\Generated\Solution.cs" />
+    <Compile Include="DataType\Generated\SolutionComponent.cs" />
+    <Compile Include="DataType\Generated\SystemUser.cs" />
+    <Compile Include="DataType\Generated\SystemUserLicenses.cs" />
+    <Compile Include="DataType\Generated\SystemUserProfiles.cs" />
+    <Compile Include="DataType\Generated\SystemUserRoles.cs" />
+    <Compile Include="DataType\Generated\SystemUserSyncMappingProfiles.cs" />
+    <Compile Include="DataType\Generated\TeamRoles.cs" />
+    <Compile Include="DataType\Generated\UII_workflow.cs" />
+    <Compile Include="DataType\Generated\UII_workflowState.cs" />
+    <Compile Include="DataType\Generated\UII_workflowstep.cs" />
+    <Compile Include="DataType\Generated\UII_workflowstepState.cs" />
+    <Compile Include="DataType\Generated\UII_workflow_workflowstep_mapping.cs" />
+    <Compile Include="DataType\Generated\UII_workflow_workflowstep_mappingState.cs" />
+    <Compile Include="DataType\Generated\WebResource.cs" />
+    <Compile Include="DataType\Generated\Workflow.cs" />
+    <Compile Include="DataType\Generated\WorkflowDependency.cs" />
+    <Compile Include="DataType\Generated\WorkflowLog.cs" />
+    <Compile Include="DataType\Generated\WorkflowState.cs" />
+    <Compile Include="DataType\PluginAssembly.cs" />
+    <Compile Include="Extensions\EntityExtensions.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\XElementExtensions.cs" />
+    <Compile Include="FormTypeId.cs" />
+    <Compile Include="Adapters\IDiscoveryServiceAdapter.cs" />
+    <Compile Include="Adapters\IOrganizationServiceAdapter.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="Nodes\EntitiesNode.cs" />
+    <Compile Include="Nodes\AttributeDependenciesNode.cs" />
+    <Compile Include="Nodes\PluginStepNode.cs" />
+    <Compile Include="Nodes\PluginAssemblyNode.cs" />
+    <Compile Include="Nodes\Form\ControlNode.cs" />
+    <Compile Include="Nodes\Form\ControlsNode.cs" />
+    <Compile Include="Nodes\Form\FormMetadataNode.cs" />
+    <Compile Include="Nodes\ManyToOneRelationshipMetadataNode.cs" />
+    <Compile Include="Nodes\ManyToOneRelationshipsNode.cs" />
+    <Compile Include="Nodes\NotSupportedNode.cs" />
+    <Compile Include="Adapters\OrganizationServiceAdapter.cs" />
+    <Compile Include="Nodes\EntityNode.cs" />
+    <Compile Include="Nodes\ManyToManyRelationshipsNode.cs" />
+    <Compile Include="Nodes\ManyToManyRelationshipMetadataNode.cs" />
+    <Compile Include="Nodes\OneToManyRelationshipMetadataNode.cs" />
+    <Compile Include="Nodes\PluginAssembliesNode.cs" />
+    <Compile Include="Nodes\WebResourcesNode.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Nodes\CrmPath.cs" />
+    <Compile Include="Nodes\AttributeMetadataNode.cs" />
+    <Compile Include="Nodes\FieldsNode.cs" />
+    <Compile Include="Nodes\OneToManyRelationshipsNode.cs" />
+    <Compile Include="Nodes\DiscoveryNode.cs" />
+    <Compile Include="Nodes\NodeBase.cs" />
+    <Compile Include="Nodes\FormsNode.cs" />
+    <Compile Include="Nodes\AdvancedFindNode.cs" />
+    <Compile Include="Nodes\EntityMetadataNode.cs" />
+    <Compile Include="Nodes\InvalidPathException.cs" />
+    <Compile Include="Nodes\NodeContext.cs" />
+    <Compile Include="Nodes\OrganizationNode.cs" />
+    <Compile Include="Nodes\WriteItemObjectDelegate.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\CmdletProviders.Modules\DynamicsCRM-PSLibrary.ps1">
+      <Link>DynamicsCRM-PSLibrary.ps1</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\CmdletProviders.Modules\DynamicsCRM-PSLibrary.ps1xml">
+      <Link>DynamicsCRM-PSLibrary.ps1xml</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="..\CmdletProviders.Modules\DynamicsCRM-PSLibrary.psd1">
+      <Link>DynamicsCRM-PSLibrary.psd1</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="app.config" />
+    <None Include="bin\coretools\CrmSvcUtil.exe.config" />
+    <None Include="bin\coretools\LicenseTerms.docx" />
+    <None Include="bin\Debug\PowerShellLibrary.Crm.Provider\CodeContracts\PowerShellLibrary.Crm.CmdletProviders.noReferenceAssembly" />
+    <None Include="bin\Debug\PowerShellLibrary.Crm.Provider\Connections.Sample.json" />
+    <None Include="bin\Debug\PowerShellLibrary.Crm.Provider\Connections.Schema.json" />
+    <None Include="bin\Debug\PowerShellLibrary.Crm.Provider\InitializeProvider.ps1" />
+    <None Include="bin\Debug\PowerShellLibrary.Crm.Provider\PowerShellLibrary.Crm.CmdletProviders.dll.config" />
+    <None Include="InitializeProvider.ps1">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <EmbeddedResource Include="Schemas\CustomizationsSolution.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\fetch.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\FormXml.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\isv.config.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\ParameterXml.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\reports.config.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\RibbonCore.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\RibbonTypes.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\RibbonWSS.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\SiteMap.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\SiteMapType.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Schemas\VisualizationDataDescription.xsd">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Connections.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connections.Schema.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\coretools\AntiXSSLibrary.dll" />
+    <Content Include="bin\coretools\CrmSvcUtil.exe" />
+    <Content Include="bin\coretools\CrmSvcUtil.xml" />
+    <Content Include="bin\coretools\Microsoft.Crm.Sdk.Proxy.dll" />
+    <Content Include="bin\coretools\Microsoft.IdentityModel.Clients.ActiveDirectory.dll" />
+    <Content Include="bin\coretools\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll" />
+    <Content Include="bin\coretools\Microsoft.IdentityModel.dll" />
+    <Content Include="bin\coretools\Microsoft.Xrm.Client.CodeGeneration.dll" />
+    <Content Include="bin\coretools\Microsoft.Xrm.Client.dll" />
+    <Content Include="bin\coretools\Microsoft.Xrm.Portal.dll" />
+    <Content Include="bin\coretools\Microsoft.Xrm.Sdk.Deployment.dll" />
+    <Content Include="bin\coretools\Microsoft.Xrm.Sdk.dll" />
+    <Content Include="bin\coretools\Microsoft.Xrm.Tooling.Connector.dll" />
+    <Content Include="bin\coretools\Microsoft.Xrm.Tooling.CrmConnectControl.dll" />
+    <Content Include="bin\coretools\Other Redistributable.txt" />
+    <Content Include="bin\coretools\SolutionPackager.exe" />
+    <Content Include="bin\coretools\WebsiteCopy.exe" />
+    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Microsoft.Crm.Sdk.Proxy.dll" />
+    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Microsoft.IdentityModel.Clients.ActiveDirectory.dll" />
+    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll" />
+    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Microsoft.Xrm.Sdk.Deployment.dll" />
+    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Microsoft.Xrm.Sdk.dll" />
+    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Microsoft.Xrm.Tooling.Connector.dll" />
+    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Newtonsoft.Json.dll" />
+    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Newtonsoft.Json.Schema.dll" />
+    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Newtonsoft.Json.Schema.xml" />
+    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Newtonsoft.Json.xml" />
+    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\PowerShellLibrary.Crm.CmdletProviders.dll" />
+    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\PowerShellLibrary.Crm.CmdletProviders.pdb" />
+    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\System.Management.Automation.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Release\PowerShellLibrary.Crm.Provider\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

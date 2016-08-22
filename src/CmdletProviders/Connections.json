@@ -1,0 +1,30 @@
+﻿[
+  {
+    "Name": "MyOnlineDeployment",
+    "DiscoveryUrl": "https://disco.crm4.dynamics.com",
+    "UserName": "administrator@MyOnlineDeployment.com",
+    "Password": "password",
+    "Organizations": [
+      {
+        "Name": "organization1",
+        "ConnectionString": "Url=https://organization1.crm4.dynamics.com; Username=administrator@MyOnlineDeployment.com; Password=password; authtype=Office365"
+      },
+      {
+        "Name": "organization2",
+        "ConnectionString": "Url=https://organization2.crm4.dynamics.com; Username=administrator@MyOnlineDeployment.com; Password=password; authtype=Office365"
+      }
+    ]
+  },
+  {
+    "Name": "MyOnPremiseDeployment",
+    "DiscoveryUrl": "https://myonpremisedeployment.domain.com",
+    "UserName": "domain\\Administrator",
+    "Password": "password",
+    "Organizations": [
+      {
+        "Name": "MyOnPremiseDeployment Integration",
+        "ConnectionString": "Url=https://myonpremisedeployment.domain.com/Integration; Domain=domain; Username=Administrator; Password=password; authtype=AD"
+      }
+    ]
+  }
+]
