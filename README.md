@@ -1,3 +1,5 @@
+> **WARNING: Please note, that the project setup is still in progress. Expected release date: Monday, 5th September 2016.**
+
 # PowerShell Library for Microsoft Dynamics CRM
 
 <a href="https://github.com/ostools/DynamicsCRM-Automation"><img src="logo.png" align="left" vspace="4"></a>
