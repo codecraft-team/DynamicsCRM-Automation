@@ -84,7 +84,7 @@ Function Validate-Json {
 Function Initialize-CrmPSDrive {
   param (
    [Parameter(Mandatory=$False)]
-   [string]$ConnectionsConfig = ("{0}\Connections.json" -f (Split-Path -Parent (gmo -l DynamicsCRM-PSLibrary).Path)),
+   [string]$ConnectionsConfig = ("{0}\Connections.json" -f (Split-Path -Parent (gmo -l DynamicsCRM-Automation).Path)),
    [Parameter(Mandatory=$false)]
    [Switch]$IgnoreUntrustedSSL
   )

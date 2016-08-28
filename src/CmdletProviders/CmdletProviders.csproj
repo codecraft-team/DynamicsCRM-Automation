@@ -22,7 +22,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\artifacts\DynamicsCRM-PSLibrary\</OutputPath>
+    <OutputPath>..\..\artifacts\DynamicsCRM-Automation\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -73,7 +73,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\artifacts\DynamicsCRM-PSLibrary\</OutputPath>
+    <OutputPath>..\..\artifacts\DynamicsCRM-Automation\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -117,9 +117,12 @@
     <CodeContractsSkipAnalysisIfCannotConnectToCache>False</CodeContractsSkipAnalysisIfCannotConnectToCache>
     <CodeContractsFailBuildOnWarnings>False</CodeContractsFailBuildOnWarnings>
     <CodeContractsBeingOptimisticOnExternal>True</CodeContractsBeingOptimisticOnExternal>
-    <CodeContractsRuntimeCheckingLevel>Full</CodeContractsRuntimeCheckingLevel>
+    <CodeContractsRuntimeCheckingLevel>Pre and Post</CodeContractsRuntimeCheckingLevel>
     <CodeContractsReferenceAssembly>DoNotBuild</CodeContractsReferenceAssembly>
     <CodeContractsAnalysisWarningLevel>0</CodeContractsAnalysisWarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Crm.Sdk.Proxy, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -290,16 +293,16 @@
     <Compile Include="Nodes\WriteItemObjectDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\CmdletProviders.Modules\DynamicsCRM-PSLibrary.ps1">
-      <Link>DynamicsCRM-PSLibrary.ps1</Link>
+    <None Include="..\CmdletProviders.Modules\DynamicsCRM-Automation.ps1">
+      <Link>DynamicsCRM-Automation.ps1</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="..\CmdletProviders.Modules\DynamicsCRM-PSLibrary.ps1xml">
-      <Link>DynamicsCRM-PSLibrary.ps1xml</Link>
+    <None Include="..\CmdletProviders.Modules\DynamicsCRM-Automation.ps1xml">
+      <Link>DynamicsCRM-Automation.ps1xml</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="..\CmdletProviders.Modules\DynamicsCRM-PSLibrary.psd1">
-      <Link>DynamicsCRM-PSLibrary.psd1</Link>
+    <None Include="..\CmdletProviders.Modules\DynamicsCRM-Automation.psd1">
+      <Link>DynamicsCRM-Automation.psd1</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="app.config" />
@@ -310,9 +313,6 @@
     <None Include="bin\Debug\PowerShellLibrary.Crm.Provider\Connections.Schema.json" />
     <None Include="bin\Debug\PowerShellLibrary.Crm.Provider\InitializeProvider.ps1" />
     <None Include="bin\Debug\PowerShellLibrary.Crm.Provider\PowerShellLibrary.Crm.CmdletProviders.dll.config" />
-    <None Include="InitializeProvider.ps1">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <EmbeddedResource Include="Schemas\CustomizationsSolution.xsd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -354,6 +354,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Include="PostBuild.ps1" />
+    <None Include="InitializeProvider.ps1" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -397,6 +399,9 @@
     <Folder Include="bin\Release\PowerShellLibrary.Crm.Provider\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -file "$(ProjectDir)PostBuild.ps1" $(ConfigurationName) $(TargetDir)</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

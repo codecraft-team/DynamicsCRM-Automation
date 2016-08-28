@@ -12,22 +12,22 @@
 RootModule = 'PowerShellLibrary.Crm.CmdletProviders.dll'
 
 # Version number of this module.
-ModuleVersion = '1.0.0.0'
+ModuleVersion = '8.1.0.1'
 
 # ID used to uniquely identify this module
 GUID = 'd0a9150d-b6a4-4b17-a325-e3a24fed0aa9'
 
 # Author of this module
-Author = 'Http302'
+Author = 'ostools'
 
 # Company or vendor of this module
-CompanyName = 'Http302'
+CompanyName = 'ostools'
 
 # Copyright statement for this module
-Copyright = '(c) 2016 Http302. All rights reserved.'
+Copyright = '(c) 2016 ostools. All rights reserved.'
 
 # Description of the functionality provided by this module
-# Description = ''
+Description = 'Powershell automation tools for Microsoft Dynamics CRM.'
 
 # Minimum version of the Windows PowerShell engine required by this module
 # PowerShellVersion = ''
@@ -54,13 +54,13 @@ Copyright = '(c) 2016 Http302. All rights reserved.'
 # RequiredAssemblies = @()
 
 # Script files (.ps1) that are run in the caller's environment prior to importing this module
-ScriptsToProcess = @("DynamicsCRM-PSLibrary.ps1")
+ScriptsToProcess = @("DynamicsCRM-Automation.ps1")
 
 # Type files (.ps1xml) to be loaded when importing this module
 # TypesToProcess = @()
 
 # Format files (.ps1xml) to be loaded when importing this module
-FormatsToProcess = @("DynamicsCRM-PSLibrary.ps1xml")
+FormatsToProcess = @("DynamicsCRM-Automation.ps1xml")
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
  #NestedModules = @()

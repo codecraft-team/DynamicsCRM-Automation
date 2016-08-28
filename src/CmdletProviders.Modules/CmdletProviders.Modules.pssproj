@@ -35,11 +35,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DynamicsCRM-PSLibrary.ps1" />
-    <Compile Include="DynamicsCRM-PSLibrary.psd1" />
+    <Compile Include="DynamicsCRM-Automation.ps1" />
+    <Compile Include="DynamicsCRM-Automation.psd1" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DynamicsCRM-PSLibrary.ps1xml" />
+    <Content Include="DynamicsCRM-Automation.ps1xml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

@@ -29,6 +29,12 @@ The following command  will download the module from the PowerShell marketplace.
 Install-Module DynamicsCRM-Automation
 ```
 
+When you already installed the module, you can initialize the CRM PSDrives by execution the following cmdlet:
+
+```powershell
+Initialize-CrmPsDrive -IgnoreUntrustedSSL;
+```
+
 You can also download the latest release using this [link](http://latestrelease).
 
 ## Examples
