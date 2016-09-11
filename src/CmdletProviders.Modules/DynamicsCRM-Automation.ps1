@@ -1,5 +1,5 @@
 ﻿Function New-CrmPSDrive {
-  param (
+  Param (
    [Parameter(Mandatory=$True)]
    [string]$Name,
    [Parameter(Mandatory=$True)]
@@ -12,7 +12,7 @@
 }
 
 Function New-CrmDiscoveryServiceAdapter {
-  param (
+  Param (
    [Parameter(Mandatory=$True)]
    [string]$DeploymentUrl,
    [Parameter(Mandatory=$True)]
@@ -25,7 +25,7 @@ Function New-CrmDiscoveryServiceAdapter {
 }
 
 Function New-CrmOrganizationServiceAdapter {
-  param (
+  Param (
    [Parameter(Mandatory=$True)]
    [string]$OrganizationName,
    [Parameter(Mandatory=$True)]
@@ -60,7 +60,7 @@ Function Show-CrmContext {
 }
 
 Function Validate-Json {
-  param (
+  Param (
     [Parameter(Mandatory=$True)]
     [string]$Json,
     [Parameter(Mandatory=$True)]
@@ -81,10 +81,14 @@ Function Validate-Json {
   $serializer.Deserialize($validatingReader) | Out-Null;
 }
 
+Function Get-CrmPSDriveConfig {
+  return "{0}\Connections.json" -f (Split-Path -Parent (gmo -l DynamicsCRM-Automation).Path);
+}
+
 Function Initialize-CrmPSDrive {
-  param (
+  Param (
    [Parameter(Mandatory=$False)]
-   [string]$ConnectionsConfig = ("{0}\Connections.json" -f (Split-Path -Parent (gmo -l DynamicsCRM-Automation).Path)),
+   [string]$ConnectionsConfig = (Get-CrmPSDriveConfig),
    [Parameter(Mandatory=$false)]
    [Switch]$IgnoreUntrustedSSL
   )

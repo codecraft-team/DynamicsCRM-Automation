@@ -1,5 +1,5 @@
 $env:PSModulePath = "$env:PSModulePath;{0}" -f (Split-Path $PSScriptRoot -Parent);
 
-Import-Module "DynamicsCRM-PSLibrary";
+Import-Module "DynamicsCRM-Automation";
 
 Initialize-CrmPsDrive -IgnoreUntrustedSSL;
