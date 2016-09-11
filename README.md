@@ -10,17 +10,6 @@ The library targets different areas of a Dynamics CRM Project life cycle, e.g. c
 
 <br/>
 
-## Resources
-
-* [Wiki](https://github.com/ostools/dynamicscrm-automation/wiki)
-* [Examples](https://github.com/ostools/dynamicscrm-automation/wiki/CmdletReference.md)
-  * [Development Automation](https://github.com/ostools/dynamicscrm-automation/wiki/CmdletReference.md)
-  * [Staging Automation](https://github.com/ostools/dynamicscrm-automation/wiki/CmdletReference.md)
-  * [Quality Assurance Automation](https://github.com/ostools/dynamicscrm-automation/wiki/CmdletReference.md)
-  * [Maintenance Automation](https://github.com/ostools/dynamicscrm-automation/wiki/CmdletReference.md)
-* [Cmdlet Reference](https://github.com/ostools/dynamicscrm-automation/wiki/CmdletReference.md)
-* [Cmdlet Provider Reference](https://github.com/ostools/dynamicscrm-automation/wiki/CmdletReference.md)
-
 ## Quick Start
 
 The following quickstarts shows you:
@@ -33,9 +22,24 @@ The following quickstarts shows you:
 
 <a href="https://github.com/ostools/DynamicsCRM-Automation"><img src="quickstart.png" align="left" vspace="4"></a><br />
 
+
+## Resources
+
+* [Wiki](https://github.com/ostools/dynamicscrm-automation/wiki)
+* [Examples](https://github.com/ostools/dynamicscrm-automation/wiki/CmdletReference.md)
+  * [Development Automation](https://github.com/ostools/dynamicscrm-automation/wiki/CmdletReference.md)
+  * [Staging Automation](https://github.com/ostools/dynamicscrm-automation/wiki/CmdletReference.md)
+  * [Quality Assurance Automation](https://github.com/ostools/dynamicscrm-automation/wiki/CmdletReference.md)
+  * [Maintenance Automation](https://github.com/ostools/dynamicscrm-automation/wiki/CmdletReference.md)
+* [Cmdlet Reference](https://github.com/ostools/dynamicscrm-automation/wiki/CmdletReference.md)
+* [Cmdlet Provider Reference](https://github.com/ostools/dynamicscrm-automation/wiki/CmdletReference.md)
+
+<br/>
+
 ## Examples
 
 Coming soon.
+
 
 ## Release Notes
 
