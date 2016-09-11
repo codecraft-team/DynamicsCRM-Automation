@@ -23,7 +23,15 @@ The library targets different areas of a Dynamics CRM Project life cycle, e.g. c
 
 ## Quick Start
 
+The following quickstarts shows you:
+- how to install using [OneGet](https://github.com/OneGet/oneget) from [PowerShell Gallery](https://www.powershellgallery.com/gettingstarted) (``` $ Install-Package DynamicsCRM-Automation ```),
+- open connection configuration to edit (``` $ Get-CrmPSDRiveConfig | ii ```),
+- initialize the CRM PS drives (``` $ Initialize-CrmPSDrive ```),
+- connect to one deployment (``` $ Set-Location Contoso-Online ```),
+- list organizations on deployment (``` $ Get-ChildItem ```),
+- list the account forms (``` Get-ChildItem .\Entities\account\Forms ```))
 
+<a href="https://github.com/ostools/DynamicsCRM-Automation"><img src="quickstart.png" align="left" vspace="4"></a><br />
 
 ## Examples
 
