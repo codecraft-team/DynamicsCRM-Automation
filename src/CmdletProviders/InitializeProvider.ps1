@@ -1,5 +1,5 @@
-$env:PSModulePath = "$env:PSModulePath;{0}" -f (Split-Path $PSScriptRoot -Parent);
+$env:PSModulePath = "$env:PSModulePath;{0}" -f [System.IO.Path]::GetFullPath((Join-Path $PSScriptRoot "\..\..\artifacts"));
 
-Import-Module "DynamicsCRM-Automation";
+Import-Module .\DynamicsCRM-Automation.psd1;
 
-Initialize-CrmPsDrive -IgnoreUntrustedSSL;
+Initialize-CrmPSDrive -IgnoreUntrustedSSL -ConnectionsConfig R:\Connections.json;
