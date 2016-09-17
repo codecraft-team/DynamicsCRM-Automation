@@ -293,18 +293,6 @@
     <Compile Include="Nodes\WriteItemObjectDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\CmdletProviders.Modules\DynamicsCRM-Automation.ps1">
-      <Link>DynamicsCRM-Automation.ps1</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\CmdletProviders.Modules\DynamicsCRM-Automation.ps1xml">
-      <Link>DynamicsCRM-Automation.ps1xml</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="..\CmdletProviders.Modules\DynamicsCRM-Automation.psd1">
-      <Link>DynamicsCRM-Automation.psd1</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="app.config" />
     <None Include="bin\coretools\CrmSvcUtil.exe.config" />
     <None Include="bin\coretools\LicenseTerms.docx" />

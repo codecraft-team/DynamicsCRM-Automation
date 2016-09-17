@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdletProviders", "CmdletPr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdletProviders.Tests", "CmdletProviders.Tests\CmdletProviders.Tests.csproj", "{C4610639-E794-4D5C-8E37-815AE01B43C8}"
 EndProject
-Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "CmdletProviders.Modules", "CmdletProviders.Modules\CmdletProviders.Modules.pssproj", "{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CmdletProviders.Modules", "CmdletProviders.Modules\CmdletProviders.Modules.csproj", "{59D8EF13-0DB0-4411-9589-28C7900E7E3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{C4610639-E794-4D5C-8E37-815AE01B43C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4610639-E794-4D5C-8E37-815AE01B43C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4610639-E794-4D5C-8E37-815AE01B43C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59D8EF13-0DB0-4411-9589-28C7900E7E3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59D8EF13-0DB0-4411-9589-28C7900E7E3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59D8EF13-0DB0-4411-9589-28C7900E7E3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59D8EF13-0DB0-4411-9589-28C7900E7E3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
