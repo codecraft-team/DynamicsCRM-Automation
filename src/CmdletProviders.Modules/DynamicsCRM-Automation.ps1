@@ -16,12 +16,12 @@ Function New-CrmDiscoveryServiceAdapter {
    [Parameter(Mandatory=$True)]
    [string]$DeploymentUrl,
    [Parameter(Mandatory=$True)]
-   [string]$UserName,
+   [string]$Name,
    [Parameter(Mandatory=$True)]
-   [string]$Password
+   [string]$Key
   )
 
-  return New-Object -TypeName "PowerShellLibrary.Crm.CmdletProviders.CachedDiscoveryServiceAdapter" -ArgumentList @("$DeploymentUrl/XRMServices/2011/Discovery.svc", $UserName, $Password);
+  return New-Object -TypeName "PowerShellLibrary.Crm.CmdletProviders.CachedDiscoveryServiceAdapter" -ArgumentList @("$DeploymentUrl/XRMServices/2011/Discovery.svc", $Name, $Key);
 }
 
 Function New-CrmOrganizationServiceAdapter {
@@ -105,7 +105,7 @@ Function Initialize-CrmPSDrive {
 
   $connections = $connectionsJson | ConvertFrom-Json;
   foreach($connection in $connections) {
-    $discoveryAdapter = New-CrmDiscoveryServiceAdapter -DeploymentUrl $connection.DiscoveryUrl -UserName $connection.UserName -Password $connection.Password;  
+    $discoveryAdapter = New-CrmDiscoveryServiceAdapter -DeploymentUrl $connection.DiscoveryUrl -Name $connection.UserName -Key $connection.Password;  
   
     $organizationArray = [System.Collections.ArrayList]@();
     foreach($organization in $connection.Organizations) {
