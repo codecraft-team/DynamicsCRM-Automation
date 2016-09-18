@@ -294,13 +294,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="bin\coretools\CrmSvcUtil.exe.config" />
-    <None Include="bin\coretools\LicenseTerms.docx" />
-    <None Include="bin\Debug\PowerShellLibrary.Crm.Provider\CodeContracts\PowerShellLibrary.Crm.CmdletProviders.noReferenceAssembly" />
-    <None Include="bin\Debug\PowerShellLibrary.Crm.Provider\Connections.Sample.json" />
-    <None Include="bin\Debug\PowerShellLibrary.Crm.Provider\Connections.Schema.json" />
-    <None Include="bin\Debug\PowerShellLibrary.Crm.Provider\InitializeProvider.ps1" />
-    <None Include="bin\Debug\PowerShellLibrary.Crm.Provider\PowerShellLibrary.Crm.CmdletProviders.dll.config" />
     <EmbeddedResource Include="Schemas\CustomizationsSolution.xsd">
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -351,41 +344,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="bin\coretools\AntiXSSLibrary.dll" />
-    <Content Include="bin\coretools\CrmSvcUtil.exe" />
-    <Content Include="bin\coretools\CrmSvcUtil.xml" />
-    <Content Include="bin\coretools\Microsoft.Crm.Sdk.Proxy.dll" />
-    <Content Include="bin\coretools\Microsoft.IdentityModel.Clients.ActiveDirectory.dll" />
-    <Content Include="bin\coretools\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll" />
-    <Content Include="bin\coretools\Microsoft.IdentityModel.dll" />
-    <Content Include="bin\coretools\Microsoft.Xrm.Client.CodeGeneration.dll" />
-    <Content Include="bin\coretools\Microsoft.Xrm.Client.dll" />
-    <Content Include="bin\coretools\Microsoft.Xrm.Portal.dll" />
-    <Content Include="bin\coretools\Microsoft.Xrm.Sdk.Deployment.dll" />
-    <Content Include="bin\coretools\Microsoft.Xrm.Sdk.dll" />
-    <Content Include="bin\coretools\Microsoft.Xrm.Tooling.Connector.dll" />
-    <Content Include="bin\coretools\Microsoft.Xrm.Tooling.CrmConnectControl.dll" />
-    <Content Include="bin\coretools\Other Redistributable.txt" />
-    <Content Include="bin\coretools\SolutionPackager.exe" />
-    <Content Include="bin\coretools\WebsiteCopy.exe" />
-    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Microsoft.Crm.Sdk.Proxy.dll" />
-    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Microsoft.IdentityModel.Clients.ActiveDirectory.dll" />
-    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll" />
-    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Microsoft.Xrm.Sdk.Deployment.dll" />
-    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Microsoft.Xrm.Sdk.dll" />
-    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Microsoft.Xrm.Tooling.Connector.dll" />
-    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Newtonsoft.Json.dll" />
-    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Newtonsoft.Json.Schema.dll" />
-    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Newtonsoft.Json.Schema.xml" />
-    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\Newtonsoft.Json.xml" />
-    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\PowerShellLibrary.Crm.CmdletProviders.dll" />
-    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\PowerShellLibrary.Crm.CmdletProviders.pdb" />
-    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider\System.Management.Automation.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\Release\PowerShellLibrary.Crm.Provider\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>"c:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -file "$(ProjectDir)PostBuild.ps1" $(ConfigurationName) $(TargetDir)</PostBuildEvent>
