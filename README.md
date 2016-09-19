@@ -44,4 +44,4 @@ Coming soon.
 
 ## Release Notes
 
-Coming soon.
+Coming soon. (Branch evaluation.)
