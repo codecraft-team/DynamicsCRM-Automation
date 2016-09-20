@@ -8,7 +8,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
 
     public PluginAssemblyNode(PluginAssembliesNode parent, PluginAssembly value) : base(parent.NodeContext, value, value.Name) {
       Parent = parent;
-      Path = $"{parent.Path}\\{value.Name}";
+      PathSegment = parent.PathSegment + new PathSegment(value.Name);
       PluginAssembly = value;
     }
 

@@ -21,7 +21,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
       Contract.Requires<ArgumentException>(parent.Parent.Name == form.GetAttributeValue<string>("objecttypecode"));
 
       Parent = parent;
-      Path = $"{parent.Path}\\{form.GetAttributeValue<string>("name")}";
+      PathSegment = parent.PathSegment + new PathSegment(form.GetAttributeValue<string>("name"));
 
       ResetFormXml();
       _lazyControlsNode = new Lazy<ControlsNode>(() => new ControlsNode(this));

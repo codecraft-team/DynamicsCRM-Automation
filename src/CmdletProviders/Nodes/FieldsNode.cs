@@ -10,7 +10,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
 
     public FieldsNode(EntityMetadataNode parent) : base(parent.NodeContext, null, NodeName) {
       Parent = parent;
-      Path = $"{parent.Path}\\{NodeName}";
+      PathSegment = parent.PathSegment + new PathSegment(NodeName);
     }
 
     public override IEnumerable<NodeBase> GetChildNodes() {

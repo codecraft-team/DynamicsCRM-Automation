@@ -5,7 +5,7 @@ using Microsoft.Xrm.Sdk.Discovery;
 namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
   public class DiscoveryNode : NodeBase {
     public DiscoveryNode(NodeContext nodeContext) : base(nodeContext, null, string.Empty) {
-      Path = string.Empty;
+      PathSegment = new PathSegment(string.Empty);
     }
 
     public override IEnumerable<NodeBase> GetChildNodes() {

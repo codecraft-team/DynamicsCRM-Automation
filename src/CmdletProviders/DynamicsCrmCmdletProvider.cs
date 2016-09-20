@@ -16,22 +16,24 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
     protected override PSDriveInfo NewDrive(PSDriveInfo drive) {
       Contract.Requires<InvalidOperationException>(null != DynamicParameters, "DynamicParameters required to create new PSDrive.");
       Contract.Requires<InvalidOperationException>(DynamicParameters is CrmDriveParameter, "DynamicParameters must be an instance of CrmDriveParameter.");
-      Contract.Requires<InvalidOperationException>(null != ((CrmDriveParameter) DynamicParameters).DiscoveryServiceAdapter, "DiscoveryServiceAdapter parameter required to initialize new drive.");
-      Contract.Requires<InvalidOperationException>(null != ((CrmDriveParameter) DynamicParameters).OrganizationServiceAdapters, "OrganizationServiceAdapters parameter required to initialize new drive.");
+      Contract.Requires<InvalidOperationException>(null != ((CrmDriveParameter)DynamicParameters).DiscoveryServiceAdapter, "DiscoveryServiceAdapter parameter required to initialize new drive.");
+      Contract.Requires<InvalidOperationException>(null != ((CrmDriveParameter)DynamicParameters).OrganizationServiceAdapters, "OrganizationServiceAdapters parameter required to initialize new drive.");
 
-      return new CrmDriveInfo(drive, (CrmDriveParameter) DynamicParameters);
+      return new CrmDriveInfo(drive, (CrmDriveParameter)DynamicParameters);
     }
 
     private CrmPath GetCrmPath(string path) {
       Contract.Requires<InvalidOperationException>(null != PSDriveInfo, "An instance of PSDriveInfo required to build path.");
       Contract.Requires<InvalidOperationException>(PSDriveInfo is CrmDriveInfo, "PSDriveInfo must be an instance of CrmDriveInfo.");
 
-      NodeContext nodeContext = new NodeContext((CrmDriveInfo) PSDriveInfo) {
+      PathSegment pathSegment = new PathSegment(path);
+
+      NodeContext nodeContext = new NodeContext((CrmDriveInfo)PSDriveInfo) {
         Filter = Filter,
         Force = Force,
         WriteItemObject = WriteItemObject
       };
-      nodeContext.SetPath(path);
+      nodeContext.SetPath(pathSegment);
 
       CrmPath crmPath = new CrmPath(nodeContext);
       return crmPath;
@@ -42,7 +44,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
     }
 
     protected override bool IsValidPath(string path) {
-      bool isPathValid = GetCrmPath(path).CurrentNode.Path.Trim('\\').Equals(path.Trim('\\'), StringComparison.OrdinalIgnoreCase);
+      bool isPathValid = GetCrmPath(path).CurrentNode.PathSegment.Equals(path);
       TraceDebug($"Path '{path}' is valid: {isPathValid}.");
       return isPathValid;
     }
@@ -54,18 +56,18 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
     }
 
     protected override bool ItemExists(string path) {
-      bool itemExists = GetCrmPath(path).CurrentNode.Path.Trim('\\').Equals(path.Trim('\\'), StringComparison.OrdinalIgnoreCase);
+      bool itemExists = GetCrmPath(path).CurrentNode.PathSegment.Equals(path);
       TraceDebug($"Item '{path}' exists: {itemExists}.");
       return itemExists;
     }
 
     protected override string MakePath(string parent, string child) {
-      List<string> pathItems = new List<string> {
-        parent,
-        child
-      };
-      string path = string.Join("\\", pathItems.Where(p => !string.IsNullOrEmpty(p)).Select(p => p.Trim('\\')));
-      return $"\\{path}";
+      PathSegment parentSegment = new PathSegment(parent);
+      PathSegment childSegment = new PathSegment(child);
+
+      PathSegment combinedSegment = parentSegment + childSegment;
+
+      return combinedSegment.Path;
     }
 
     protected override void GetChildItems(string path, bool recurse) {
@@ -79,30 +81,24 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
       GetCrmPath(path).CurrentNode.RemoveItem(recurse);
     }
 
-    protected override string GetChildName(string path) {
-      string normalizedPath = NodeContext.NormalizePath(path);
-      string childName = normalizedPath.Split('\\').Last();
+    protected override string GetChildName(string pathValue) {
+      PathSegment pathSegment = new PathSegment(pathValue);
 
-      TraceDebug("Child name of {0} is {1}.", path, childName);
+      string childName = pathSegment.Segments.Last();
+
+      TraceDebug("Child name of {0} is {1}.", pathSegment, childName);
 
       return childName;
     }
 
     protected override string GetParentPath(string path, string root) {
-      if (!string.IsNullOrEmpty(root) && !path.Contains(root)) {
-        TraceDebug($"Parent path of {path} is [null].");
-        return null;
-      }
+      PathSegment pathSegment = new PathSegment(path);
 
-      if (!path.Contains("\\")) {
-        TraceDebug($"Parent path of {path} is {root} (root).");
-        return path == "\\" ? null : root;
-      }
+      int noOfSegments = pathSegment.Segments.Count();
 
-      string parentPath = path.Substring(0, path.LastIndexOf("\\", StringComparison.OrdinalIgnoreCase));
+      string parentPathSegment = pathSegment.GetPathDecendants().Take(noOfSegments - 1).LastOrDefault();
 
-      TraceDebug($"Parent path of {path} is {(parentPath ?? "null")}.");
-      return parentPath;
+      return parentPathSegment ?? root;
     }
 
     protected override void GetChildNames(string path, ReturnContainers returnContainers) {

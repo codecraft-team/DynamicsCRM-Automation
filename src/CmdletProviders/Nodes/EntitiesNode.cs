@@ -9,7 +9,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
 
     public EntitiesNode(OrganizationNode parent) : base(parent.NodeContext, null, NodeName) {
       Parent = parent;
-      Path = $"{parent.Path}\\{Name}";
+      PathSegment = parent.PathSegment + new PathSegment(Name);
     }
 
     public override IEnumerable<NodeBase> GetChildNodes() {

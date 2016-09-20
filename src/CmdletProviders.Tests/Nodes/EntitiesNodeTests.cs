@@ -70,5 +70,19 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests.Nodes {
 
       Assert.IsFalse(PowerShell.HadErrors);
     }
+
+
+    [TestMethod]
+    public void TestCasesensitiveGetLocation() {
+      PowerShell.AddScript("Set-Location ACCOUNT").Invoke();
+
+      Collection<PSObject> locations = PowerShell.AddScript("Get-Location").Invoke();
+
+      PathInfo pathInfo = locations[0].BaseObject as PathInfo;
+
+      Assert.AreEqual(@"CRMLocal:\Playground\Entities\account", pathInfo.Path);
+
+      Assert.IsFalse(PowerShell.HadErrors);
+    }
   }
 }

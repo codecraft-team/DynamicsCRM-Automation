@@ -10,7 +10,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
 
     public ControlsNode(FormMetadataNode parent) : base(parent.NodeContext, null, NodeName) {
       Parent = parent;
-      Path = $"{parent.Path}\\{NodeName}";
+      PathSegment = parent.PathSegment + new PathSegment(Name);
     }
 
     public override IEnumerable<NodeBase> GetChildNodes() {

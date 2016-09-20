@@ -20,7 +20,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     public AttributeMetadataNode(FieldsNode parent, AttributeMetadata value) : base(parent.NodeContext, value, value.LogicalName) {
       IsContainer = false;
       Parent = parent;
-      Path = $"{parent.Path}\\{value.LogicalName}";
+      PathSegment = parent.PathSegment + new PathSegment(value.LogicalName);
       AttributeMetadata = value;
     }
 
@@ -52,7 +52,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
       Logger.WriteWarning(message.Replace(" For a list of referenced components, use the RetrieveDependenciesForDeleteRequest.", Environment.NewLine));
 
       if (dependentForms.Any()) {
-        dependentForms.ForEach(form => Logger.WriteWarning($"Dependency found under path: {form.Path}"));
+        dependentForms.ForEach(form => Logger.WriteWarning($"Dependency found under path: {form.PathSegment}"));
       }
       else {
         throw new NotSupportedException($"The attribute {Name} cannot be deleted, because it has dependencies, which cannot be resolved by the PSDrive Provider.");

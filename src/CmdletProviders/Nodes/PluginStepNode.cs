@@ -6,7 +6,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
 
     public PluginStepNode(PluginAssemblyNode parent, PluginType value) : base(parent.NodeContext, value, value.Name) {
       Parent = parent;
-      Path = $"{parent.Path}\\{value.Name}";
+      PathSegment = parent.PathSegment + new PathSegment(value.Name);
     }
 
     public override IEnumerable<NodeBase> GetChildNodes() {

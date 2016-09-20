@@ -7,7 +7,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     public ManyToManyRelationshipMetadataNode(ManyToManyRelationshipsNode parent, RelationshipMetadataBase value) : base(parent.NodeContext, value, value.SchemaName) {
       IsContainer = false;
       Parent = parent;
-      Path = $"{parent.Path}\\{value.SchemaName}";
+      PathSegment = parent.PathSegment + new PathSegment(value.SchemaName);
     }
 
     public override void RemoveItem(object value) {

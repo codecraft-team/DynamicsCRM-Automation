@@ -10,7 +10,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     public OrganizationNode(DiscoveryNode parent, OrganizationDetail organization) : base(parent.NodeContext, organization, GetPathName(organization)) {
       Parent = parent;
       Organization = organization;
-      Path = $"{parent.Path}\\{GetPathName(organization)}";
+      PathSegment = parent.PathSegment + new PathSegment(GetPathName(organization));
     }
 
     public override IEnumerable<NodeBase> GetChildNodes() {

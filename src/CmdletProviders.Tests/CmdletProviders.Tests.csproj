@@ -197,7 +197,9 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
@@ -223,6 +225,7 @@
     <Compile Include="DataSource\Generator\OrganizationData.cs" />
     <Compile Include="DataSource\Generator\OrganizationDataCollector.cs" />
     <Compile Include="Nodes\PluginsNodeTests.cs" />
+    <Compile Include="Nodes\PathSegementTests.cs" />
     <Compile Include="PowerShellTestExtensions.cs" />
     <Compile Include="ProviderTestBase.cs" />
     <Compile Include="Stubs\StubDiscoveryServiceAdapter.cs" />

@@ -263,6 +263,7 @@
     <Compile Include="Nodes\EntitiesNode.cs" />
     <Compile Include="Nodes\AttributeDependenciesNode.cs" />
     <Compile Include="Nodes\NodeKeyEqualityComparer.cs" />
+    <Compile Include="Nodes\PathSegment.cs" />
     <Compile Include="Nodes\PluginStepNode.cs" />
     <Compile Include="Nodes\PluginAssemblyNode.cs" />
     <Compile Include="Nodes\Form\ControlNode.cs" />

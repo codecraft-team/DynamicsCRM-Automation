@@ -10,7 +10,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
   public abstract class NodeBase {
     public string Name { get; protected set; }
     public bool IsContainer { get; protected set; }
-    public string Path { get; protected set; }
+    public PathSegment PathSegment { get; protected set; }
     public NodeContext NodeContext { get; internal set; }
     public object Value { get; }
 
@@ -22,7 +22,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     }
 
     private bool UseFilter() {
-      return !string.IsNullOrEmpty(NodeContext.Filter) && string.Equals(NodeContext.CrmDrive.CurrentLocation.TrimStart('\\'), Path.TrimStart('\\'));
+      return !string.IsNullOrEmpty(NodeContext.Filter) && PathSegment.Equals(NodeContext.CrmDrive.CurrentLocation);
     }
 
     protected IOrganizationServiceAdapter GetOrganizationServiceAdapter() {
@@ -39,20 +39,20 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     }
 
     public virtual IEnumerable<NodeBase> GetChildNodes() {
-      throw new NotSupportedException($"The node {GetType().FullName} under the path '{Path}' does not support child nodes.");
+      throw new NotSupportedException($"The node {GetType().FullName} under the path '{PathSegment}' does not support child nodes.");
     }
     
     public virtual void RemoveItem(object value) {
-      throw new NotSupportedException($"The node {GetType().FullName} under the path '{Path}' does not support Remove-Item.");
+      throw new NotSupportedException($"The node {GetType().FullName} under the path '{PathSegment}' does not support Remove-Item.");
     }
 
     public virtual string GetChildName() {
-      Debug.WriteLine("The node {0} under the path '{1}' does not return the child name yet.", GetType().FullName, Path);
+      Debug.WriteLine("The node {0} under the path '{1}' does not return the child name yet.", GetType().FullName, PathSegment);
       return null;
     }
 
     public void GetChildItems() {
-      GetChildNodes().ForEach(childNode =>  NodeContext.WriteItemObject(new PSObject(childNode.Value), childNode.Path, childNode.IsContainer));
+      GetChildNodes().ForEach(childNode =>  NodeContext.WriteItemObject(new PSObject(childNode.Value), childNode.PathSegment.Path, childNode.IsContainer));
     }
 
     public virtual void GetChildNames(ReturnContainers returnContainers) {

@@ -10,7 +10,6 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
   public class CrmPath {
     private readonly Dictionary<string, NodeBase> _nodes;
     private readonly NodeContext _nodeContext;
-    private const string RootPath = "";
 
     public IReadOnlyDictionary<string, NodeBase> Providers => new ReadOnlyDictionary<string, NodeBase>(_nodes);
     public NodeBase this[string path] => _nodes[path];
@@ -25,24 +24,21 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
       CreateNodes();
     }
 
-    private NodeBase GetNode(string pathSegment) {
-      if(!NodesContainsKey(pathSegment)) {
-        return new NotSupportedNode(pathSegment);
+    private NodeBase GetNode(string path) {
+      if(!NodesContainsKey(path)) {
+        return new NotSupportedNode(path);
       }
 
-      return _nodes[pathSegment];
+      return _nodes[path];
     }
 
     private void CreateNodes() {
       CurrentNode = CreateRootNode();
 
-      string[] segments = GetPathWithoutDriveName().Split(new[] {'\\'}, StringSplitOptions.RemoveEmptyEntries);
-      StringBuilder pathBuilder = new StringBuilder();
-      
-      foreach (string segment in segments) {
-        CurrentNode.GetChildNodes().ForEach(EnsureNodeExists);
+      IEnumerable<string> paths = _nodeContext.PathSegment.GetPathDecendants();
 
-        string currentPath = pathBuilder.AppendFormat("\\{0}", segment).ToString();
+      foreach(string currentPath in paths) {
+        CurrentNode.GetChildNodes().ForEach(EnsureNodeExists);
 
         if(NodesContainsKey(currentPath)) {
           CurrentNode = _nodes[currentPath];
@@ -59,7 +55,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
 
     private void SetOrganizationUrl() {
       NodeBase organizationNode = Providers.Values.FirstOrDefault(node => node is OrganizationNode);
-      if (null == organizationNode) {
+      if(null == organizationNode) {
         return;
       }
 
@@ -68,12 +64,12 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
 
     private void SetDeploymentUrl() {
       NodeBase deploymentNode = Providers.Values.FirstOrDefault(node => node is DiscoveryNode);
-      if (null == deploymentNode) {
+      if(null == deploymentNode) {
         return;
       }
 
       string prompt = null;
-      if (_nodeContext.CrmDrive.DiscoveryServiceAdapter.IsDiscoverable()) {
+      if(_nodeContext.CrmDrive.DiscoveryServiceAdapter.IsDiscoverable()) {
         prompt = _nodeContext.CrmDrive.DiscoveryServiceAdapter.Url?.Replace("/XRMServices/2011/Discovery.svc", string.Empty);
       }
 
@@ -83,11 +79,11 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
 
     private NodeBase CreateRootNode() {
       EnsureNodeExists(new DiscoveryNode(_nodeContext));
-      return GetNode(RootPath);
+      return GetNode(PathSegment.RootPath);
     }
 
     private void EnsureNodeExists(NodeBase node) {
-      string key = node.Path;
+      string key = node.PathSegment.Path;
 
       if(!NodesContainsKey(key)) {
         _nodes.Add(key, node);
@@ -99,10 +95,6 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
 
     private bool NodesContainsKey(string key) {
       return _nodes.ContainsKey(key);
-    }
-
-    private string GetPathWithoutDriveName() {
-      return _nodeContext.Path.Split(':').Last();
     }
   }
 }

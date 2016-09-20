@@ -13,7 +13,8 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
 
     public ControlNode(ControlsNode parent, XElement controlElement) : base(parent.NodeContext, null, controlElement.Attribute(XName.Get("id")).Value) {
       Parent = parent;
-      Path = $"{parent.Path}\\{Name}";
+      PathSegment = parent.PathSegment + new PathSegment(Name);
+
       ControlElement = controlElement;
       Id = ControlElement.GetId();
       IsContainer = false;
