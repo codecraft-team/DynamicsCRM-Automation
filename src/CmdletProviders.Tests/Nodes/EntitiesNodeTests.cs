@@ -62,5 +62,13 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests.Nodes {
       Assert.AreEqual(Entities.Count(entity => entity.LogicalName.Contains(substring)), childItems.Count);
       Assert.IsTrue(childItems.All(child => child.BaseObject is EntityMetadata));
     }
+
+
+    [TestMethod]
+    public void TestCaseInsensitiveSetLocation() {
+      PowerShell.AddScript("Set-Location ACCOUNT").Invoke();
+
+      Assert.IsFalse(PowerShell.HadErrors);
+    }
   }
 }

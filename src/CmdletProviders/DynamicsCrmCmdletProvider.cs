@@ -42,7 +42,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
     }
 
     protected override bool IsValidPath(string path) {
-      bool isPathValid = GetCrmPath(path).CurrentNode.Path.Trim('\\') == path.Trim('\\');
+      bool isPathValid = GetCrmPath(path).CurrentNode.Path.Trim('\\').Equals(path.Trim('\\'), StringComparison.OrdinalIgnoreCase);
       TraceDebug($"Path '{path}' is valid: {isPathValid}.");
       return isPathValid;
     }
@@ -54,7 +54,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
     }
 
     protected override bool ItemExists(string path) {
-      bool itemExists = GetCrmPath(path).CurrentNode.Path.Trim('\\') == path.Trim('\\');
+      bool itemExists = GetCrmPath(path).CurrentNode.Path.Trim('\\').Equals(path.Trim('\\'), StringComparison.OrdinalIgnoreCase);
       TraceDebug($"Item '{path}' exists: {itemExists}.");
       return itemExists;
     }

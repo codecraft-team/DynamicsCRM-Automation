@@ -19,14 +19,14 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     public CrmPath(NodeContext nodeContext) {
       Contract.Requires<ArgumentNullException>(null != nodeContext, "nodeContext");
 
-      _nodes = new Dictionary<string, NodeBase>();
+      _nodes = new Dictionary<string, NodeBase>(new NodeKeyEqualityComparer());
       _nodeContext = nodeContext;
 
       CreateNodes();
     }
 
     private NodeBase GetNode(string pathSegment) {
-      if (!_nodes.ContainsKey(pathSegment)) {
+      if(!NodesContainsKey(pathSegment)) {
         return new NotSupportedNode(pathSegment);
       }
 
@@ -40,10 +40,11 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
       StringBuilder pathBuilder = new StringBuilder();
       
       foreach (string segment in segments) {
-        CurrentNode.GetChildNodes().ForEach(provider => EnsureNodeExists(provider.Path, provider));
+        CurrentNode.GetChildNodes().ForEach(EnsureNodeExists);
 
         string currentPath = pathBuilder.AppendFormat("\\{0}", segment).ToString();
-        if (_nodes.ContainsKey(currentPath)) {
+
+        if(NodesContainsKey(currentPath)) {
           CurrentNode = _nodes[currentPath];
         }
       }
@@ -81,12 +82,14 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     }
 
     private NodeBase CreateRootNode() {
-      EnsureNodeExists(RootPath, new DiscoveryNode(_nodeContext));
+      EnsureNodeExists(new DiscoveryNode(_nodeContext));
       return GetNode(RootPath);
     }
 
-    private void EnsureNodeExists(string key, NodeBase node) {
-      if (!_nodes.ContainsKey(key)) {
+    private void EnsureNodeExists(NodeBase node) {
+      string key = node.Path;
+
+      if(!NodesContainsKey(key)) {
         _nodes.Add(key, node);
       }
       else {
@@ -94,8 +97,12 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
       }
     }
 
+    private bool NodesContainsKey(string key) {
+      return _nodes.ContainsKey(key);
+    }
+
     private string GetPathWithoutDriveName() {
-      return _nodeContext.Path.Split(new[] {':'}).Last();
+      return _nodeContext.Path.Split(':').Last();
     }
   }
 }
