@@ -74,7 +74,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests.Nodes {
 
     [TestMethod]
     public void TestCasesensitiveGetLocation() {
-      PowerShell.AddScript("Set-Location ACCOUNT").Invoke();
+      PowerShell.AddScript("Set-Location ACCOUNT");
 
       Collection<PSObject> locations = PowerShell.AddScript("Get-Location").Invoke();
 

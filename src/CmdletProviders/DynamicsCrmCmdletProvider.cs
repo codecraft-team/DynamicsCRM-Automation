@@ -81,18 +81,16 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
       GetCrmPath(path).CurrentNode.RemoveItem(recurse);
     }
 
-    protected override string GetChildName(string pathValue) {
-      PathSegment pathSegment = new PathSegment(pathValue);
+    protected override string GetChildName(string path) {
+      string childName = GetCrmPath(path).CurrentNode.PathSegment.Segments.LastOrDefault();
 
-      string childName = pathSegment.Segments.Last();
-
-      TraceDebug("Child name of {0} is {1}.", pathSegment, childName);
+      TraceDebug("Child name of {0} is {1}.", path, childName);
 
       return childName;
     }
 
     protected override string GetParentPath(string path, string root) {
-      PathSegment pathSegment = new PathSegment(path);
+      PathSegment pathSegment = GetCrmPath(path).CurrentNode.PathSegment;
 
       int noOfSegments = pathSegment.Segments.Count();
 

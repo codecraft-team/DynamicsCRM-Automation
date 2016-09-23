@@ -75,7 +75,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests.Nodes {
     [TestMethod]
     public void NavigatingToInvalidOrganizationCausesError() {
       string invalidOrganizationName = Guid.NewGuid().ToString();
-      string expectedErrorMessage = $"Cannot find path '{DriveName}:\\{invalidOrganizationName}' because it does not exist.";
+      string expectedErrorMessage = $"The {invalidOrganizationName} was not found in the connections configuration.";
 
       PowerShell.AddScript($"Set-Location {invalidOrganizationName};").Invoke();
       ErrorRecord actualErrorMessage = PowerShell.Streams.Error.FirstOrDefault();

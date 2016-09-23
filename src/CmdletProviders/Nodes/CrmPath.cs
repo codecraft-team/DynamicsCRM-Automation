@@ -11,7 +11,6 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     private readonly Dictionary<string, NodeBase> _nodes;
     private readonly NodeContext _nodeContext;
 
-    public IReadOnlyDictionary<string, NodeBase> Providers => new ReadOnlyDictionary<string, NodeBase>(_nodes);
     public NodeBase this[string path] => _nodes[path];
     public NodeBase CurrentNode { get; private set; }
 
@@ -54,7 +53,8 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     }
 
     private void SetOrganizationUrl() {
-      NodeBase organizationNode = Providers.Values.FirstOrDefault(node => node is OrganizationNode);
+      OrganizationNode organizationNode = _nodes.Values.OfType<OrganizationNode>().FirstOrDefault();
+
       if(null == organizationNode) {
         return;
       }
@@ -63,7 +63,8 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     }
 
     private void SetDeploymentUrl() {
-      NodeBase deploymentNode = Providers.Values.FirstOrDefault(node => node is DiscoveryNode);
+      NodeBase deploymentNode = _nodes.Values.FirstOrDefault(node => node is DiscoveryNode);
+
       if(null == deploymentNode) {
         return;
       }
