@@ -221,6 +221,7 @@
     <Compile Include="Nodes\FormNodeTests.cs" />
     <Compile Include="Nodes\FormsNodeTests.cs" />
     <Compile Include="Nodes\OneToManyRelationshipsNodeTests.cs" />
+    <Compile Include="Nodes\OrganizationConfigurationTest.cs" />
     <Compile Include="Nodes\OrganizationsNodeTest.cs" />
     <Compile Include="DataSource\Generator\OrganizationData.cs" />
     <Compile Include="DataSource\Generator\OrganizationDataCollector.cs" />
@@ -249,11 +250,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="bin\coretools\CrmSvcUtil.exe.config" />
-    <None Include="bin\coretools\LicenseTerms.docx" />
-    <None Include="bin\Debug\PowerShellLibrary.Crm.Provider.Connections.Sample.json" />
-    <None Include="bin\Debug\PowerShellLibrary.Crm.Provider.Connections.Schema.json" />
-    <None Include="bin\Debug\PowerShellLibrary.Crm.Provider.Fakes.FakedTypesCache" />
     <None Include="DataSource\Generator\GenerateModel.ps1" />
     <EmbeddedResource Include="DataSource\Playground.Entities.generated.json" />
     <EmbeddedResource Include="DataSource\Playground.Forms.generated.json" />
@@ -263,30 +259,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
-  <ItemGroup>
-    <Content Include="bin\coretools\AntiXSSLibrary.dll" />
-    <Content Include="bin\coretools\CrmSvcUtil.exe" />
-    <Content Include="bin\coretools\CrmSvcUtil.xml" />
-    <Content Include="bin\coretools\Microsoft.Crm.Sdk.Proxy.dll" />
-    <Content Include="bin\coretools\Microsoft.IdentityModel.Clients.ActiveDirectory.dll" />
-    <Content Include="bin\coretools\Microsoft.IdentityModel.Clients.ActiveDirectory.WindowsForms.dll" />
-    <Content Include="bin\coretools\Microsoft.IdentityModel.dll" />
-    <Content Include="bin\coretools\Microsoft.Xrm.Client.CodeGeneration.dll" />
-    <Content Include="bin\coretools\Microsoft.Xrm.Client.dll" />
-    <Content Include="bin\coretools\Microsoft.Xrm.Portal.dll" />
-    <Content Include="bin\coretools\Microsoft.Xrm.Sdk.Deployment.dll" />
-    <Content Include="bin\coretools\Microsoft.Xrm.Sdk.dll" />
-    <Content Include="bin\coretools\Microsoft.Xrm.Tooling.Connector.dll" />
-    <Content Include="bin\coretools\Microsoft.Xrm.Tooling.CrmConnectControl.dll" />
-    <Content Include="bin\coretools\Other Redistributable.txt" />
-    <Content Include="bin\coretools\SolutionPackager.exe" />
-    <Content Include="bin\coretools\WebsiteCopy.exe" />
-    <Content Include="bin\Debug\PowerShellLibrary.Crm.Provider.Fakes.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\Debug\CodeContracts\" />
-    <Folder Include="bin\Release\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

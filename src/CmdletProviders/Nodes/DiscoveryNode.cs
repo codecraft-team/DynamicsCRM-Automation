@@ -9,8 +9,10 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     }
 
     public override IEnumerable<NodeBase> GetChildNodes() {
-      IEnumerable<OrganizationDetail> organizations = RetrieveOrganizations();
+      IEnumerable<OrganizationDetail> organizations = RetrieveOrganizations().Where(organization => null != NodeContext.CrmDrive.DriveParameter.OrganizationServiceAdapters.SingleOrDefault(adapter => adapter.OrganizationFriendlyName == organization.FriendlyName));
+
       organizations = Filter(organizations, organization => organization.FriendlyName);
+
       return organizations.Select(organization => new OrganizationNode(this, organization));
     }
 

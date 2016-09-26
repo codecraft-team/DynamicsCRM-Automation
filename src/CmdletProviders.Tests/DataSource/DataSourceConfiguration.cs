@@ -16,5 +16,16 @@
         "systemform"
       }
     };
+
+    public static readonly DataSourceConfiguration NotConfiguredOraganization = new DataSourceConfiguration {
+      OrganizationFriendlyName = "NotConfiguredOraganization",
+      EntityLogicalNames = new[] {
+        "account",
+        "contact"
+      },
+      Forms = new[] {
+        "systemform"
+      }
+    };
   }
 }
