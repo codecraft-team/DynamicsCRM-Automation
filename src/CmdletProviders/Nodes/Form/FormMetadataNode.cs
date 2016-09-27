@@ -17,11 +17,11 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     public XDocument FormXml { get; private set; }
     public ControlsNode ControlsNode => _lazyControlsNode.Value;
 
-    public FormMetadataNode(FormsNode parent, Entity form) : base(parent.NodeContext, form, form.GetAttributeValue<string>("name")) {
+    public FormMetadataNode(FormsNode parent, CrmForm form) : base(parent.NodeContext, form, form.GetAttributeValue<string>("name")) {
       Contract.Requires<ArgumentException>(parent.Parent.Name == form.GetAttributeValue<string>("objecttypecode"));
 
       Parent = parent;
-      PathSegment = parent.PathSegment + new PathSegment(form.GetAttributeValue<string>("name"));
+      PathSegment = parent.PathSegment + new PathSegment(form.Name);
 
       ResetFormXml();
       _lazyControlsNode = new Lazy<ControlsNode>(() => new ControlsNode(this));
@@ -98,15 +98,15 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     }
 
     private XDocument ParseFormXml() {
-      Entity formMetadata = GetFormMetadata();
+      CrmForm formMetadata = GetFormMetadata();
 
-      string xml = formMetadata.GetAttributeValue<string>("formxml");
+      string xml = formMetadata.FormXml;
 
       return XDocument.Parse(xml);
     }
 
-    private Entity GetFormMetadata() {
-      Entity formMetadata = Value as Entity;
+    private CrmForm GetFormMetadata() {
+      CrmForm formMetadata = Value as CrmForm;
       Contract.Assume(null != formMetadata, "The FormMetadataNode requires a valid form metadata entity.");
       return formMetadata;
     }

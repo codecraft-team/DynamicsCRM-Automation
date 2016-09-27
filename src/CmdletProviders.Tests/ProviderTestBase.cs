@@ -26,8 +26,8 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
     public IEnumerable<EntityMetadata> Entities { get; set; }
     public EntityMetadata EntityMetadata { get; private set; }
     public AttributeMetadata AttributeMetadata { get; set; }
-    public IEnumerable<Entity> Forms { get; set; }
-    public Entity Form { get; set; }
+    public IEnumerable<CrmForm> Forms { get; set; }
+    public CrmForm Form { get; set; }
 
     public OrganizationServiceContext OrganizationServiceContext { get; set; }
     
@@ -70,7 +70,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
 
       SetOrganization(Organizations.ElementAt(Random.Next(0, Organizations.Count() - 1)).FriendlyName);
       SetEntityMetadata(Entities.ElementAt(Random.Next(0, Entities.Count())).LogicalName);
-      SetForm(Forms.ElementAt(Random.Next(0, Forms.Count())).GetAttributeValue<string>("name"));
+      SetForm(Forms.ElementAt(Random.Next(0, Forms.Count())).Name);
 
       OrganizationServiceContext = _organizationServiceAdapter.CreateContext();
     }
@@ -95,7 +95,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
 
     protected void SetEntityMetadata(string logicalName) {
       EntityMetadata = Entities.Single(p => p.LogicalName == logicalName);
-      Forms = _organizationServiceAdapter.RetrieveFilteredForms(EntityMetadata.LogicalName).ToList();
+      Forms = _organizationServiceAdapter.RetrieveFilteredForms(EntityMetadata).ToList();
 
       AttributeMetadata = null;
       Form = null;

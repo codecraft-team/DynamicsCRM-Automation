@@ -13,7 +13,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     }
 
     public override IEnumerable<NodeBase> GetChildNodes() {
-      IEnumerable<Entity> forms = GetOrganizationServiceAdapter().RetrieveFilteredForms(Parent.Name);
+      IEnumerable<CrmForm> forms = GetOrganizationServiceAdapter().RetrieveFilteredForms(Parent.EntityMetadata);
       return forms.Select(form => new FormMetadataNode(this, form));
     }
   }

@@ -14,7 +14,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
     IEnumerable<OneToManyRelationshipMetadata> RetrieveOneToManyRelationships(string entityLogicalName);
     IEnumerable<OneToManyRelationshipMetadata> RetrieveManyToOneRelationships(string entityLogicalName);
     IEnumerable<ManyToManyRelationshipMetadata> RetrieveManyToManyRelationships(string entityLogicalName);
-    IEnumerable<Entity> RetrieveFilteredForms(string entityLogicalName);
+    IEnumerable<CrmForm> RetrieveFilteredForms(EntityMetadata entityMetadata);
     void DeleteAttribute(string entityLogicalName, string attributeLogicalName);
     void DeleteRelationship(string entityLogicalName, string relationshipSchemaName);
     RetrieveDependenciesForDeleteResponse RetrieveDependencies(ComponentType componentType, Guid objectId);
@@ -23,6 +23,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
     string GetUrl();
     void PublishEntity(string logicalName);
     IEnumerable<PluginAssembly> RetrievePluginAssemblies();
-    IEnumerable<PluginType> RetrievePluginSteps(Guid assemblyId);
+    IEnumerable<PluginType> RetrievePluginTypes(Guid assemblyId);
+    IEnumerable<SdkMessageProcessingStep> RetrievePluginSteps();
   }
 }

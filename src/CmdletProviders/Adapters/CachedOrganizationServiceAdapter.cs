@@ -8,9 +8,10 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
     private IEnumerable<EntityMetadata> _allEntityMetadataCache;
     private readonly Dictionary<string, IEnumerable<AttributeMetadata>> _attributeMetadataCache = new Dictionary<string, IEnumerable<AttributeMetadata>>();
     private readonly Dictionary<string, Dictionary<EntityFilters, EntityMetadata>> _retrieveEntityMetadataCache = new Dictionary<string, Dictionary<EntityFilters, EntityMetadata>>();
-    private readonly Dictionary<string, IEnumerable<Entity>> _filteredFormsCache = new Dictionary<string, IEnumerable<Entity>>();
+    private readonly Dictionary<string, IEnumerable<CrmForm>> _filteredFormsCache = new Dictionary<string, IEnumerable<CrmForm>>();
 
     private IEnumerable<PluginAssembly> _pluginAssemblies;
+    private IEnumerable<SdkMessageProcessingStep> _pluginSteps;
     private readonly Dictionary<Guid, IEnumerable<PluginType>> _pluginTypes = new Dictionary<Guid, IEnumerable<PluginType>>();
 
     public CachedOrganizationServiceAdapter(string organizationFriendlyName, string connectionString) : base(organizationFriendlyName, connectionString) {
@@ -46,21 +47,25 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
       }
     }
 
-    public override IEnumerable<Entity> RetrieveFilteredForms(string entityLogicalName) {
-      if (!_filteredFormsCache.ContainsKey(entityLogicalName)) {
-        _filteredFormsCache.Add(entityLogicalName, base.RetrieveFilteredForms(entityLogicalName));
+    public override IEnumerable<CrmForm> RetrieveFilteredForms(EntityMetadata entityMetadata) {
+      if (!_filteredFormsCache.ContainsKey(entityMetadata.LogicalName)) {
+        _filteredFormsCache.Add(entityMetadata.LogicalName, base.RetrieveFilteredForms(entityMetadata));
       }
 
-      return _filteredFormsCache[entityLogicalName];
+      return _filteredFormsCache[entityMetadata.LogicalName];
     }
 
     public override IEnumerable<PluginAssembly> RetrievePluginAssemblies() {
       return _pluginAssemblies ?? (_pluginAssemblies = base.RetrievePluginAssemblies());
     }
 
-    public override IEnumerable<PluginType> RetrievePluginSteps(Guid assemblyId) {
+    public override IEnumerable<SdkMessageProcessingStep> RetrievePluginSteps() {
+      return _pluginSteps ?? (_pluginSteps = base.RetrievePluginSteps());
+    }
+
+    public override IEnumerable<PluginType> RetrievePluginTypes(Guid assemblyId) {
       if (!_pluginTypes.ContainsKey(assemblyId)) {
-        _pluginTypes.Add(assemblyId, base.RetrievePluginSteps(assemblyId));
+        _pluginTypes.Add(assemblyId, base.RetrievePluginTypes(assemblyId));
       }
 
       return _pluginTypes[assemblyId];

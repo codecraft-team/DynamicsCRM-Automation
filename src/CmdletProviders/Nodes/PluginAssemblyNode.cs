@@ -13,10 +13,10 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     }
 
     public override IEnumerable<NodeBase> GetChildNodes() {
-      IEnumerable<PluginType> pluginSteps = GetOrganizationServiceAdapter().RetrievePluginSteps(PluginAssembly.Id);
+      IEnumerable<PluginType> pluginSteps = GetOrganizationServiceAdapter().RetrievePluginTypes(PluginAssembly.Id);
       pluginSteps = Filter(pluginSteps, entityMetadata => entityMetadata.Name);
 
-      return pluginSteps.Select(pluginAssembly => new PluginStepNode(this, pluginAssembly));
+      return pluginSteps.Select(pluginAssembly => new PluginTypeNode(this, pluginAssembly));
     }
   }
 }

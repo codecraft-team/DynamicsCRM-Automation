@@ -42,7 +42,11 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
       throw new NotImplementedException();
     }
 
-    public IEnumerable<PluginType> RetrievePluginSteps(Guid assemblyId) {
+    public IEnumerable<PluginType> RetrievePluginTypes(Guid assemblyId) {
+      throw new NotImplementedException();
+    }
+
+    public IEnumerable<SdkMessageProcessingStep> RetrievePluginSteps() {
       throw new NotImplementedException();
     }
 
@@ -70,8 +74,8 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
       return RetrieveEntityMetadata(entityLogicalName, EntityFilters.Relationships).ManyToManyRelationships;
     }
 
-    public IEnumerable<Entity> RetrieveFilteredForms(string entityLogicalName) {
-      return OrganizationData.Forms.Where(form => (string) form["objecttypecode"] == entityLogicalName);
+    public IEnumerable<CrmForm> RetrieveFilteredForms(EntityMetadata entityMetadata) {
+      return OrganizationData.Forms.Where(form => form.ObjectTypeCode == entityMetadata.LogicalName);
     }
 
     public void DeleteAttribute(string entityLogicalName, string attributeLogicalName) {
@@ -79,7 +83,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
       AttributeMetadata attributeToRemove = entityMetadata.Attributes.First(a => a.LogicalName == attributeLogicalName);
 
       ThrowIfManaged(attributeToRemove, entityMetadata);
-      ThrowIfDependencyFound(entityLogicalName, attributeLogicalName);
+      ThrowIfDependencyFound(entityMetadata, attributeLogicalName);
 
       List<AttributeMetadata> newAttributeList = entityMetadata.Attributes.ToList();
       newAttributeList.Remove(attributeToRemove);
@@ -88,8 +92,8 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
       attributesField.SetValue(entityMetadata, newAttributeList.ToArray());
     }
 
-    private void ThrowIfDependencyFound(string entityLogicalName, string attributeLogicalName) {
-      IEnumerable<Entity> dependentForms = RetrieveFilteredForms(entityLogicalName).Where(form => form.GetControls().Any(control => control.GetDataFieldName() == attributeLogicalName)).ToList();
+    private void ThrowIfDependencyFound(EntityMetadata entityMetadata, string attributeLogicalName) {
+      IEnumerable<Entity> dependentForms = RetrieveFilteredForms(entityMetadata).Where(form => form.GetControls().Any(control => control.GetDataFieldName() == attributeLogicalName)).ToList();
       if (dependentForms.Any()) {
         FaultReason reason = new FaultReason($"The {attributeLogicalName} component cannot be deleted because it is referenced by {dependentForms.Count()} other components. For a list of referenced components, use the RetrieveDependenciesForDeleteRequest.");
         OrganizationServiceFault detail = new OrganizationServiceFault {
@@ -162,7 +166,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
       if (componentType == ComponentType.Attribute) {
         IEnumerable<EntityMetadata> entities = RetrieveAllEntityMetadata().ToList();
         EntityMetadata entityOfAttribute = entities.Single(entity => entity.Attributes.Any(aMetadata => aMetadata.MetadataId == objectId));
-        IEnumerable<Entity> forms = RetrieveFilteredForms(entityOfAttribute.LogicalName);
+        IEnumerable<Entity> forms = RetrieveFilteredForms(entityOfAttribute);
         AttributeMetadata attribute = entityOfAttribute.Attributes.First(a => a.MetadataId == objectId);
 
         List<Entity> dependencies = new List<Entity>();

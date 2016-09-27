@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Metadata;
 
 namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
@@ -10,7 +9,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
     public OrganizationData Collect(IOrganizationServiceAdapter organizationServiceAdapter) {
 
       List<EntityMetadata> entities = new List<EntityMetadata>();
-      List<Entity> forms = new List<Entity>();
+      List<CrmForm> forms = new List<CrmForm>();
       string[] supportedEntities = new[] {
         "account",
         "contact"
@@ -25,7 +24,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
         EntityMetadata entireEntityMetadata = organizationServiceAdapter.RetrieveEntityMetadata(leanMetadata.LogicalName, EntityFilters.All);
         Console.WriteLine($"{index++}/{retrieveAllEntityMetadata.Count} elapsed seconds {stopwatch.Elapsed.TotalSeconds:##.###}: {entireEntityMetadata.LogicalName}");
 
-        IEnumerable<Entity> filteredForms = organizationServiceAdapter.RetrieveFilteredForms(leanMetadata.LogicalName);
+        IEnumerable<CrmForm> filteredForms = organizationServiceAdapter.RetrieveFilteredForms(leanMetadata);
         filteredForms.ToList().ForEach(forms.Add);
 
         entities.Add(entireEntityMetadata);

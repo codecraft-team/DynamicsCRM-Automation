@@ -1,19 +1,12 @@
-﻿using System.Collections.Generic;
-
-namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
+﻿namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
   public class PluginStepNode : NodeBase {
-    public PluginAssemblyNode Parent { get; }
+    public PluginStepsNode Parent { get; }
+    public SdkMessageProcessingStep PluginStep { get; set; }
 
-    public PluginStepNode(PluginAssemblyNode parent, PluginType value) : base(parent.NodeContext, value, value.Name) {
+    public PluginStepNode(PluginStepsNode parent, SdkMessageProcessingStep value) : base(parent.NodeContext, value, value.Name) {
       Parent = parent;
       PathSegment = parent.PathSegment + new PathSegment(value.Name);
-    }
-
-    public override IEnumerable<NodeBase> GetChildNodes() {
-      NodeBase[] nodes = {
-      };
-
-      return Filter(nodes, nodeBase => nodeBase.Name);
+      PluginStep = value;
     }
   }
 }

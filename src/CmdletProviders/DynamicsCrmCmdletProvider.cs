@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Management.Automation;
@@ -67,7 +68,9 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
 
       PathSegment combinedSegment = parentSegment + childSegment;
 
-      return combinedSegment.Path;
+      string result = combinedSegment.Path;
+      TraceDebug($"MakePath parent: '{parent}' child: {child} result: {result}");
+      return result;
     }
 
     protected override void GetChildItems(string path, bool recurse) {
@@ -84,7 +87,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
     protected override string GetChildName(string path) {
       string childName = GetCrmPath(path).CurrentNode.PathSegment.Segments.LastOrDefault();
 
-      TraceDebug("Child name of {0} is {1}.", path, childName);
+      TraceDebug("GetChildName of {0} is {1}", path, childName);
 
       return childName;
     }
@@ -95,14 +98,17 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
       int noOfSegments = pathSegment.Segments.Count();
 
       string parentPathSegment = pathSegment.GetPathDecendants().Take(noOfSegments - 1).LastOrDefault();
+      string result = parentPathSegment ?? root;
 
-      return parentPathSegment ?? root;
+      TraceDebug($"GetParentPath: {path} root: {root} result: {result}");
+
+      return result;
     }
 
     protected override void GetChildNames(string path, ReturnContainers returnContainers) {
-      TraceDebug("GetChildNames of {0} ({1}).", path, returnContainers);
-
       GetCrmPath(path).CurrentNode.GetChildNames(returnContainers);
+
+      TraceDebug("GetChildNames of {0} ({1}).", path, returnContainers);
     }
 
     protected override bool HasChildItems(string path) {

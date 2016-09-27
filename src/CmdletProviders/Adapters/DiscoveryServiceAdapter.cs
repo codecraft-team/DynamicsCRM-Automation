@@ -23,11 +23,13 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
     }
 
     public virtual IEnumerable<OrganizationDetail> DiscoverOrganizations() {
+      Logger.WriteDebug("DiscoveryServiceAdapter.DiscoverOrganizations...");
+
       Uri discoveryServiceUri = new Uri(Url);
       return CrmServiceClient.DiscoverOrganizations(discoveryServiceUri, null, _clientCredentials, null);
     }
 
-    public bool IsDiscoverable() {
+    public virtual bool IsDiscoverable() {
       try {
         HttpWebRequest request = WebRequest.Create($"{Url}?wsdl&sdkversion=8.1") as HttpWebRequest;
         request.Timeout = 4000;

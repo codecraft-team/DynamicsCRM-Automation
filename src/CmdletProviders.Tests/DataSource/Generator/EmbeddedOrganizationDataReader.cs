@@ -23,9 +23,9 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
       return Read<List<EntityMetadata>>(entitiesFileName);
     }
 
-    private IEnumerable<Entity> ReadForms(string organizationFriendlyName) {
+    private IEnumerable<CrmForm> ReadForms(string organizationFriendlyName) {
       string entitiesFileName = $"{EmbeddedResourcePrefix}{organizationFriendlyName}.Forms.generated.json";
-      return Read<List<Entity>>(entitiesFileName);
+      return Read<List<CrmForm>>(entitiesFileName);
     }
 
     private TResult Read<TResult>(string resourceName) {

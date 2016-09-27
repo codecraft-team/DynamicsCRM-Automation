@@ -12,7 +12,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests.Stubs {
   public class StubOrganizationServiceAdapter : IOrganizationServiceAdapter {
     public string OrganizationFriendlyName { get; }
     public List<EntityMetadata> EntityMetadataDetail { get; set; }
-    public Dictionary<string, List<Entity>> Forms { get; set; }
+    public Dictionary<string, List<CrmForm>> Forms { get; set; }
     public Dictionary<string, List<AttributeMetadata>> Fields { get; set; }
     public Dictionary<string, List<OneToManyRelationshipMetadata>> ManyToOneRelationships { get; set; }
     public Dictionary<string, List<OneToManyRelationshipMetadata>> OneToManyRelationships { get; set; }
@@ -22,7 +22,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests.Stubs {
     public StubOrganizationServiceAdapter(string organizationFriendlyName) {
       OrganizationFriendlyName = organizationFriendlyName;
       EntityMetadataDetail = new List<EntityMetadata>();
-      Forms = new Dictionary<string, List<Entity>>();
+      Forms = new Dictionary<string, List<CrmForm>>();
     }
 
     public IOrganizationService CreateOrganizationService(OrganizationDetail organizationDetail) {
@@ -102,12 +102,16 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests.Stubs {
       throw new NotImplementedException();
     }
 
-    public IEnumerable<PluginType> RetrievePluginSteps(Guid assemblyId) {
+    public IEnumerable<PluginType> RetrievePluginTypes(Guid assemblyId) {
       throw new NotImplementedException();
     }
 
-    public IEnumerable<Entity> RetrieveFilteredForms(string entityLogicalName) {
-      return Forms[entityLogicalName];
+    public IEnumerable<SdkMessageProcessingStep> RetrievePluginSteps() {
+      throw new NotImplementedException();
+    }
+
+    public IEnumerable<CrmForm> RetrieveFilteredForms(EntityMetadata entityMetadata) {
+      return Forms[entityMetadata.LogicalName];
     }
   }
 

@@ -6,6 +6,6 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
   public class OrganizationData {
     public IEnumerable<EntityMetadata> EntityMetadatas { get; set; }
 
-    public IEnumerable<Entity> Forms { get; set; }
+    public IEnumerable<CrmForm> Forms { get; set; }
   }
 }

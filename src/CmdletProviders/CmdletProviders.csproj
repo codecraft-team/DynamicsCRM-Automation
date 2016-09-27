@@ -189,9 +189,13 @@
     <Compile Include="Adapters\CachedOrganizationServiceAdapter.cs" />
     <Compile Include="CrmDriveParameter.cs" />
     <Compile Include="CrmDriveInfo.cs" />
+    <Compile Include="DataType\CrmForm.cs" />
+    <Compile Include="DataType\PluginStepStage.cs" />
+    <Compile Include="DataType\SdkMessageProcessingStep.cs" />
+    <Compile Include="DataType\PluginType.cs" />
     <Compile Include="DynamicsCrmCmdletProvider.cs" />
     <Compile Include="Adapters\DiscoveryServiceAdapter.cs" />
-    <Compile Include="DataType\AssemblyIsolationMode.cs" />
+    <Compile Include="DataType\PluginAssemblyIsolationMode.cs" />
     <Compile Include="DataType\ComponentType.cs" />
     <Compile Include="DataType\Generated\AsyncOperation.cs" />
     <Compile Include="DataType\Generated\AsyncOperationState.cs" />
@@ -265,6 +269,8 @@
     <Compile Include="Nodes\NodeKeyEqualityComparer.cs" />
     <Compile Include="Nodes\PathSegment.cs" />
     <Compile Include="Nodes\PluginStepNode.cs" />
+    <Compile Include="Nodes\PluginStepsNode.cs" />
+    <Compile Include="Nodes\PluginTypeNode.cs" />
     <Compile Include="Nodes\PluginAssemblyNode.cs" />
     <Compile Include="Nodes\Form\ControlNode.cs" />
     <Compile Include="Nodes\Form\ControlsNode.cs" />
