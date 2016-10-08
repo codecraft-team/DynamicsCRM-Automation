@@ -11,7 +11,7 @@ Write-Host "`nRemoving Module artifacts..`n"
 Write-Host "`nModule artifacts removed.`n"
 
 If (Get-Module -ListAvailable -Name PSSCriptAnalyzer) {
-  $report = @("$ProjectDir\DynamicsCRM-Automation.ps1") | Invoke-ScriptAnalyzer -Severity Error;
+  $report = Invoke-ScriptAnalyzer -Severity Error -Path "$ProjectDir\DynamicsCRM-Automation.ps1";
   $report | Format-Table;
 
   If ($report.Count -gt 0) {
