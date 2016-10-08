@@ -1,42 +1,31 @@
 ﻿using System;
 using System.Diagnostics.Contracts;
-using System.Xml.Linq;
-using PowerShellLibrary.Crm.CmdletProviders.Extensions;
 
 namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
   public class ControlNode : NodeBase {
     public ControlsNode Parent { get; set; }
 
     public string AttributeLogicalName { get; set; }
-    public XElement ControlElement { get; set; }
+    public CrmFormControl CrmFormControl { get; set; }
     public string Id { get; set; }
 
-    public ControlNode(ControlsNode parent, XElement controlElement) : base(parent.NodeContext, null, controlElement.Attribute(XName.Get("id")).Value) {
+    public ControlNode(ControlsNode parent, CrmFormControl crmFormControl) : base(parent.NodeContext, crmFormControl, crmFormControl.Id) {
       Parent = parent;
       PathSegment = parent.PathSegment + new PathSegment(Name);
 
-      ControlElement = controlElement;
-      Id = ControlElement.GetId();
+      CrmFormControl = crmFormControl;
+      Id = crmFormControl.Id;
       IsContainer = false;
 
-      AttributeLogicalName = ControlElement.Attribute(XName.Get("datafieldname"))?.Value;
+      AttributeLogicalName = CrmFormControl.DataFieldName;
     }
 
     public override void RemoveItem(object value) {
-      Contract.Requires<InvalidOperationException>(null != ControlElement && ControlElement.Name.LocalName == "control", "The control node value must be a valid control XElement.");
+      Contract.Requires<InvalidOperationException>(null != CrmFormControl);
 
-      ControlElement.Remove();
-      if (null != ControlElement.Parent) {
-        XElement parentRow = ControlElement.Parent.Parent;
-        ControlElement.Parent.Remove();
-        if (null != parentRow && !parentRow.HasElements) {
-          parentRow.Remove();
-        }
-      }
+      CrmFormControl.Remove();
 
-      Parent.Parent.ValidateSchema();
-
-      Logger.WriteVerbose($"Control {ControlElement} of {AttributeLogicalName} attribute removed from {Parent.Parent.Name} form.");
+      Logger.WriteVerbose($"Control {CrmFormControl.Xml} of {AttributeLogicalName} attribute removed from {Parent.Parent.CrmForm.Name} form.");
     }
   }
 }

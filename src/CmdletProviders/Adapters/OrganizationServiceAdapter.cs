@@ -9,7 +9,6 @@ using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Tooling.Connector;
-using PowerShellLibrary.Crm.CmdletProviders.Extensions;
 
 namespace PowerShellLibrary.Crm.CmdletProviders {
   public class OrganizationServiceAdapter : IOrganizationServiceAdapter {
@@ -163,41 +162,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
 
     public virtual IEnumerable<AttributeMetadata> RetrieveAttributes(string entityLogicalName) {
       AttributeMetadata[] attributes = RetrieveEntityMetadata(entityLogicalName, EntityFilters.Attributes).Attributes;
-      return attributes.Where(attribute => attribute.AttributeOf == null && attribute.LogicalName != "isprivate");
-    }
-
-    private AttributeMetadata[] RetrieveMissingLabels(AttributeMetadata[] attributes) {
-      AttributeMetadata[] attributesWithoutLabel = attributes.Where(a => a.DisplayName.UserLocalizedLabel == null).ToArray();
-      if (!attributesWithoutLabel.Any()) {
-        return attributes;
-      }
-
-      IEnumerable<RetrieveAttributeRequest> requests = attributesWithoutLabel.Select(attributeMetadata => new RetrieveAttributeRequest {
-        LogicalName = attributeMetadata.LogicalName,
-        EntityLogicalName = "account"
-      });
-
-      ExecuteMultipleRequest executeMultiple = new ExecuteMultipleRequest {
-        Requests = new OrganizationRequestCollection(),
-        Settings = new ExecuteMultipleSettings {
-          ContinueOnError = true,
-          ReturnResponses = true
-        }
-      };
-      executeMultiple.Requests.AddRange(requests);
-
-      IOrganizationService organizationService = CreateCrmServiceClient();
-      ExecuteMultipleResponse executeMultipleResponse = (ExecuteMultipleResponse)organizationService.Execute(executeMultiple);
-      IEnumerable<RetrieveAttributeResponse> attributeResponses = executeMultipleResponse.Responses.Select(response => response.Response as RetrieveAttributeResponse).Where(response => null != response);
-
-      Dictionary<Guid, AttributeMetadata> attributeMetadataDictionary = attributes.ToDictionary(a => a.MetadataId.GetValueOrDefault(), a => a);
-      foreach (RetrieveAttributeResponse retrieveAttributeResponse in attributeResponses) {
-        Guid attributeMetadataId = retrieveAttributeResponse.AttributeMetadata.MetadataId.GetValueOrDefault();
-        attributeMetadataDictionary[attributeMetadataId].DisplayName = retrieveAttributeResponse.AttributeMetadata.DisplayName;
-        attributeMetadataDictionary[attributeMetadataId].Description = retrieveAttributeResponse.AttributeMetadata.Description;
-      }
-
-      return attributes;
+      return attributes.Where(attribute => attribute.AttributeOf == null && attribute.LogicalName != "isprivate").OrderBy(p => p.LogicalName);
     }
 
     public IEnumerable<OneToManyRelationshipMetadata> RetrieveOneToManyRelationships(string entityLogicalName) {
@@ -230,12 +195,14 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
       }
     }
 
-    public RetrieveDependenciesForDeleteResponse RetrieveDependencies(ComponentType componentType, Guid objectId) {
+    public IEnumerable<Dependency> RetrieveDependencies(ComponentType componentType, Guid objectId) {
       using (OrganizationServiceProxy organizationService = CreateOrganizationService()) {
-        return (RetrieveDependenciesForDeleteResponse) organizationService.Execute(new RetrieveDependenciesForDeleteRequest {
+        RetrieveDependenciesForDeleteResponse response = (RetrieveDependenciesForDeleteResponse) organizationService.Execute(new RetrieveDependenciesForDeleteRequest {
           ComponentType = (int) componentType,
           ObjectId = objectId
         });
+
+        return response.EntityCollection.Entities.Select(e => e.ToEntity<Dependency>());
       }
     }
 
@@ -279,28 +246,6 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
 
       return RetrieveMultiple<CrmForm>(formsFetch);
     }
-
-    //private IEnumerable<Entity> RetrieveFilteredForms(string entityLogicalName, Guid userId, FormTypeId formTypeId, IOrganizationService organizationService) {
-    //  RetrieveFilteredFormsResponse filteredFormsResponse = (RetrieveFilteredFormsResponse) organizationService.Execute(new RetrieveFilteredFormsRequest {
-    //    FormType = new OptionSetValue((int) formTypeId),
-    //    SystemUserId = userId,
-    //    EntityLogicalName = entityLogicalName
-    //  });
-
-    //  if (filteredFormsResponse.SystemForms.Any()) {
-    //    QueryExpression query = new QueryExpression("systemform") {
-    //      ColumnSet = new ColumnSet(true)
-    //    };
-    //    query.Criteria.AddCondition("formid", ConditionOperator.In, filteredFormsResponse.SystemForms.Select(p => p.Id).Cast<object>().ToArray());
-    //    EntityCollection formDetails = ((RetrieveMultipleResponse) organizationService.Execute(new RetrieveMultipleRequest {
-    //      Query = query
-    //    })).EntityCollection;
-
-    //    return formDetails.Entities;
-    //  }
-
-    //  return new Entity[0];
-    //}
 
     public OrganizationServiceContext CreateContext() {
       return new OrganizationServiceContext(CreateOrganizationService());

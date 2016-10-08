@@ -17,7 +17,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
     [TestMethod, ExpectedException(typeof (PSArgumentNullException))]
     public void DiscoveryServiceAdapterRequired() {
       PowerShell.NewDrive(Guid.NewGuid().ToString("N"), null, new List<IOrganizationServiceAdapter> {
-        new StubOrganizationServiceAdapter("OrganizationName")
+        new TestOrganizationServiceAdapter("OrganizationName")
       }).Invoke();
 
       Assert.Fail();
@@ -25,7 +25,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
 
     [TestMethod, ExpectedException(typeof (PSArgumentNullException))]
     public void OrganizationServiceAdapterRequired() {
-      PowerShell.NewDrive(Guid.NewGuid().ToString("N"), new StubDiscoveryServiceAdapter("url"), null).Invoke();
+      PowerShell.NewDrive(Guid.NewGuid().ToString("N"), new TestDiscoveryServiceAdapter("url"), null).Invoke();
 
       Assert.Fail();
     }

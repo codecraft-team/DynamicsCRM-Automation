@@ -83,17 +83,17 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     }
 
     internal IEnumerable<FormMetadataNode> GetFormDependencies() {
-      RetrieveDependenciesForDeleteResponse retrieveDependenciesResponse = GetOrganizationServiceAdapter().RetrieveDependencies(ComponentType.Attribute, ((AttributeMetadata) Value).MetadataId.GetValueOrDefault());
+      IEnumerable<Dependency> dependencies = GetOrganizationServiceAdapter().RetrieveDependencies(ComponentType.Attribute, ((AttributeMetadata) Value).MetadataId.GetValueOrDefault());
 
       List<FormMetadataNode> dependentForms = new List<FormMetadataNode>();
 
       Lazy<FormMetadataNode[]> lazyForms = new Lazy<FormMetadataNode[]>(() => Parent.Parent.Forms.GetChildNodes().Cast<FormMetadataNode>().ToArray());
-      foreach (Entity dependency in retrieveDependenciesResponse.EntityCollection.Entities) {
-        int dependentComponentType = ((OptionSetValue) dependency["dependentcomponenttype"]).Value;
-        Guid dependentComponentId = (Guid) dependency["dependentcomponentobjectid"];
+      foreach (Dependency dependency in dependencies) {
+        int dependentComponentType = dependency.DependentComponentType.Value;
+        Guid dependentComponentId = dependency.DependentComponentObjectId;
 
         if (dependentComponentType == (int) ComponentType.SystemForm || dependentComponentType == (int) ComponentType.Form) {
-          FormMetadataNode form = lazyForms.Value.First(p => ((Entity) p.Value).Id == dependentComponentId);
+          FormMetadataNode form = lazyForms.Value.First(p => ((CrmForm) p.Value).Id == dependentComponentId);
           dependentForms.Add(form);
         }
       }

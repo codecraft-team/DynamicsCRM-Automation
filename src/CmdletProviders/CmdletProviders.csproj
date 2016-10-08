@@ -190,6 +190,8 @@
     <Compile Include="CrmDriveParameter.cs" />
     <Compile Include="CrmDriveInfo.cs" />
     <Compile Include="DataType\CrmForm.cs" />
+    <Compile Include="DataType\CrmFormControl.cs" />
+    <Compile Include="DataType\Dependency.cs" />
     <Compile Include="DataType\PluginStepStage.cs" />
     <Compile Include="DataType\SdkMessageProcessingStep.cs" />
     <Compile Include="DataType\PluginType.cs" />

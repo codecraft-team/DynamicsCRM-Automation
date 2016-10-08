@@ -33,7 +33,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
         writeAction(_provider);
       }
       catch (Exception e) {
-        Debug.WriteLine(e.Message);
+        Debug.WriteLine($"{DateTime.Now:HH:mm:ss.fff} {e.Message}" );
       }
     }
 

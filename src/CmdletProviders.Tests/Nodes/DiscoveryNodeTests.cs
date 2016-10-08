@@ -5,69 +5,105 @@ using System.Linq;
 using System.Management.Automation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Xrm.Sdk.Discovery;
+using PowerShellLibrary.Crm.CmdletProviders.Fakes;
 
 namespace PowerShellLibrary.Crm.CmdletProviders.Tests.Nodes {
   [TestClass]
-  public class DiscoveryNodeTests : ProviderTestBase {
-    
+  public class DiscoveryNodeTests {
+    private const string CrmLocal = "CRMLocal";
+
+    public PowerShell PowerShell { get; set; }
+    public IDiscoveryServiceAdapter DiscoveryServiceAdapter { get; set; }
+
+    [TestInitialize]
+    public void TestInitialize() {
+      const string crmPackaging = "crm-packaging";
+      const string crmIntegration = "crm-integration";
+
+      List<OrganizationDetail> organizations = new List<OrganizationDetail> {
+        new OrganizationDetail {
+          FriendlyName = crmPackaging
+        },
+        new OrganizationDetail {
+          FriendlyName = crmIntegration
+        }
+      };
+
+      DiscoveryServiceAdapter = new StubIDiscoveryServiceAdapter {
+        DiscoverOrganizations = () => organizations,
+        IsDiscoverable = () => true
+      };
+
+      List<IOrganizationServiceAdapter> organizationServiceAdapters = new List<IOrganizationServiceAdapter> {
+        new StubIOrganizationServiceAdapter {
+          OrganizationFriendlyNameGet = () => crmPackaging
+        },
+        new StubIOrganizationServiceAdapter {
+          OrganizationFriendlyNameGet = () => crmIntegration
+        }
+      };
+
+      PowerShell = PowerShell.Create(RunspaceMode.NewRunspace);
+      PowerShell.NewDrive(CrmLocal, DiscoveryServiceAdapter, organizationServiceAdapters);
+    }
+
     [TestMethod]
     public void RootContainerHasOrganizationDetailChildren() {
-      IEnumerable<OrganizationDetail> expectedOrganizations = Organizations.ToList();
+      List<OrganizationDetail> expectedOrganizations = DiscoveryServiceAdapter.DiscoverOrganizations().ToList();
 
-      Collection<PSObject> childItems = PowerShell.AddScript("Get-ChildItem").Invoke();
+      Collection<OrganizationDetail> actualOrganizations = PowerShell.AddScript($"Get-ChildItem -Path {CrmLocal}:").Invoke<OrganizationDetail>();
 
-      Assert.IsTrue(childItems.All(childItem => childItem.BaseObject is OrganizationDetail));
-      Assert.AreEqual(expectedOrganizations.Count(), childItems.Count);
-      Assert.IsTrue(expectedOrganizations.All(expectedOrganization => childItems.Any(child => ((OrganizationDetail)child.BaseObject).FriendlyName == expectedOrganization.FriendlyName)));
+      CollectionAssert.AreEqual(expectedOrganizations, actualOrganizations);
     }
 
     [TestMethod]
     public void RootChildrenOrganizationDetailsFilterEndsWith() {
-      string suffix = Organization.FriendlyName.Substring(Organization.FriendlyName.Length - 3);
-      int expectedCount = Organizations.Count(organization => organization.FriendlyName.EndsWith(suffix));
+      string suffix = "integration";
+      int expectedCount = DiscoveryServiceAdapter.DiscoverOrganizations().Count(organization => organization.FriendlyName.EndsWith(suffix));
 
-      Collection<PSObject> childItems = PowerShell.AddScript($"Get-ChildItem -Filter *{suffix}").Invoke();
+      Collection<PSObject> childItems = PowerShell.AddScript($"Get-ChildItem -Path {CrmLocal}: -Filter *{suffix}").Invoke();
 
       Assert.AreEqual(expectedCount, childItems.Count);
-      Assert.IsTrue(childItems.All(child => ((OrganizationDetail)child.BaseObject).FriendlyName.EndsWith(suffix)));
+      Assert.IsTrue(childItems.All(child => ((OrganizationDetail) child.BaseObject).FriendlyName.EndsWith(suffix)));
     }
 
     [TestMethod]
     public void RootChildrenOrganizationDetailsFilterStartsWith() {
-      string prefix = Organization.FriendlyName.Substring(0, 3);
-      int expectedCount = Organizations.Count(organization => organization.FriendlyName.StartsWith(prefix));
+      string prefix = "crm-pa";
+      int expectedCount = DiscoveryServiceAdapter.DiscoverOrganizations().Count(organization => organization.FriendlyName.StartsWith(prefix));
 
-      Collection<PSObject> childItems = PowerShell.AddScript($"Get-ChildItem -Filter {prefix}*").Invoke();
+      Collection<PSObject> childItems = PowerShell.AddScript($"Get-ChildItem -Path {CrmLocal}: -Filter {prefix}*").Invoke();
 
       Assert.AreEqual(expectedCount, childItems.Count);
-      Assert.IsTrue(childItems.All(child => ((OrganizationDetail)child.BaseObject).FriendlyName.StartsWith(prefix)));
+      Assert.IsTrue(childItems.All(child => ((OrganizationDetail) child.BaseObject).FriendlyName.StartsWith(prefix)));
     }
 
     [TestMethod]
     public void RootChildrenOrganizationDetailsFilterSubstring() {
-      string substring = Organization.FriendlyName.Substring(0, 3);
-      int expectedCount = Organizations.Count(organization => organization.FriendlyName.Contains(substring));
+      string substring = "-pa";
+      int expectedCount = DiscoveryServiceAdapter.DiscoverOrganizations().Count(organization => organization.FriendlyName.Contains(substring));
 
-      Collection<PSObject> childItems = PowerShell.AddScript($"Get-ChildItem -Filter *{substring}*").Invoke();
+      Collection<PSObject> childItems = PowerShell.AddScript($"Get-ChildItem -Path {CrmLocal}: -Filter *{substring}*").Invoke();
 
       Assert.AreEqual(expectedCount, childItems.Count);
-      Assert.IsTrue(childItems.All(child => ((OrganizationDetail)child.BaseObject).FriendlyName.Contains(substring)));
+      Assert.IsTrue(childItems.All(child => ((OrganizationDetail) child.BaseObject).FriendlyName.Contains(substring)));
     }
 
     [TestMethod]
     public void OrganizationNodeCanBeNavigatedUsingOrganizationFriendlyName() {
-      string expectedPath = $"{DriveName}:\\{Organization.FriendlyName}";
+      string expectedPath = $"{CrmLocal}:\\crm-packaging";
 
-      PowerShell.AddScript($"Set-Location {Organization.FriendlyName}").Invoke();
+      PowerShell.AddScript($"Set-Location {CrmLocal}:\\crm-packaging").Invoke();
 
       Assert.AreEqual(expectedPath, PowerShell.Runspace.SessionStateProxy.Path.CurrentLocation.Path);
     }
 
     [TestMethod]
     public void OrganizationNodeCanBeNavigatedUsingRelativePath() {
-      string expectedPath = $"{DriveName}:\\{Organization.FriendlyName}";
+      string expectedPath = $"{CrmLocal}:\\crm-integration";
+      PowerShell.AddScript($"Set-Location {CrmLocal}:");
 
-      PowerShell.AddScript($"Set-Location .\\{Organization.FriendlyName}").Invoke();
+      PowerShell.AddScript($"Set-Location .\\crm-integration").Invoke();
 
       Assert.AreEqual(expectedPath, PowerShell.Runspace.SessionStateProxy.Path.CurrentLocation.Path);
     }
@@ -77,7 +113,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests.Nodes {
       string invalidOrganizationName = Guid.NewGuid().ToString();
       string expectedErrorMessage = $"The {invalidOrganizationName} was not found in the connections configuration.";
 
-      PowerShell.AddScript($"Set-Location {invalidOrganizationName};").Invoke();
+      PowerShell.AddScript($"Set-Location {CrmLocal}:\\{invalidOrganizationName};").Invoke();
       ErrorRecord actualErrorMessage = PowerShell.Streams.Error.FirstOrDefault();
 
       Assert.AreEqual(1, PowerShell.Streams.Error.Count);

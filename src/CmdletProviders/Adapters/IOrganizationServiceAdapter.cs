@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Crm.Sdk.Messages;
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
 using Microsoft.Xrm.Sdk.Metadata;
@@ -17,7 +16,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
     IEnumerable<CrmForm> RetrieveFilteredForms(EntityMetadata entityMetadata);
     void DeleteAttribute(string entityLogicalName, string attributeLogicalName);
     void DeleteRelationship(string entityLogicalName, string relationshipSchemaName);
-    RetrieveDependenciesForDeleteResponse RetrieveDependencies(ComponentType componentType, Guid objectId);
+    IEnumerable<Dependency> RetrieveDependencies(ComponentType componentType, Guid objectId);
     OrganizationServiceContext CreateContext();
     void Update(Entity entity);
     string GetUrl();

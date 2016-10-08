@@ -146,6 +146,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.CrmSdk.CoreTools.8.1.0.2\content\bin\coretools\Microsoft.Xrm.Sdk.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Xrm.Sdk.8.0.0.0.Fakes">
+      <HintPath>FakesAssemblies\Microsoft.Xrm.Sdk.8.0.0.0.Fakes.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xrm.Sdk.Deployment, Version=8.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.CrmSdk.CoreTools.8.1.0.2\content\bin\coretools\Microsoft.Xrm.Sdk.Deployment.dll</HintPath>
@@ -162,8 +165,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.Schema.2.0.3\lib\net45\Newtonsoft.Json.Schema.dll</HintPath>
     </Reference>
-    <Reference Include="PowerShellLibrary.Crm.Provider.Fakes">
-      <HintPath>FakesAssemblies\PowerShellLibrary.Crm.Provider.Fakes.dll</HintPath>
+    <Reference Include="PowerShellLibrary.Crm.CmdletProviders.Fakes">
+      <HintPath>FakesAssemblies\PowerShellLibrary.Crm.CmdletProviders.Fakes.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -202,14 +205,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="DataSource\DataSourceConfiguration.cs" />
-    <Compile Include="DataSource\EmbeddedDiscoveryDataAdapter.cs" />
-    <Compile Include="DataSource\Generator\CodeGeneration.cs" />
     <Compile Include="Commands\NewPsDriveTests.cs" />
-    <Compile Include="DataSource\DataSourceTests.cs" />
-    <Compile Include="DataSource\EmbeddedOrganizationDataAdapter.cs" />
-    <Compile Include="DataSource\Generator\EmbeddedOrganizationDataReader.cs" />
-    <Compile Include="DataSource\Generator\EmbeddedOrganizationDataWriter.cs" />
+    <Compile Include="Extensions\AttributeMetadataExtensions.cs" />
+    <Compile Include="Extensions\EntityMetadataExtensions.cs" />
+    <Compile Include="Mocks\OrganizationServiceAdapterMock.cs" />
+    <Compile Include="Mocks\OrganizationServiceContextMock.cs" />
     <Compile Include="Nodes\DiscoveryNodeTests.cs" />
     <Compile Include="Nodes\EntitiesNodeTests.cs" />
     <Compile Include="Nodes\EntityMetadataNodeTests.cs" />
@@ -219,27 +219,18 @@
     <Compile Include="Nodes\FormNodeTests.cs" />
     <Compile Include="Nodes\FormsNodeTests.cs" />
     <Compile Include="Nodes\OneToManyRelationshipsNodeTests.cs" />
-    <Compile Include="Nodes\OrganizationConfigurationTest.cs" />
     <Compile Include="Nodes\OrganizationsNodeTest.cs" />
-    <Compile Include="DataSource\Generator\OrganizationData.cs" />
-    <Compile Include="DataSource\Generator\OrganizationDataCollector.cs" />
     <Compile Include="Nodes\PluginsNodeTests.cs" />
     <Compile Include="Nodes\PathSegementTests.cs" />
     <Compile Include="PowerShellTestExtensions.cs" />
-    <Compile Include="ProviderTestBase.cs" />
-    <Compile Include="Stubs\MetadataLabelEvaluationTests.cs" />
-    <Compile Include="Stubs\StubDiscoveryServiceAdapter.cs" />
-    <Compile Include="Stubs\StubEntityMetadata.cs" />
+    <Compile Include="Stubs\TestDiscoveryServiceAdapter.cs" />
+    <Compile Include="Stubs\TestEntityMetadata.cs" />
     <Compile Include="Nodes\AdvancedFindNodeTests.cs" />
-    <Compile Include="Stubs\StubOrganizationServiceAdapter.cs" />
-    <Compile Include="Stubs\StubOrganizationServiceContext.cs" />
-    <Compile Include="Stubs\StubOrganizationDetail.cs" />
-    <Compile Include="Stubs\StubOrganizationService.cs" />
+    <Compile Include="Stubs\TestOrganizationServiceAdapter.cs" />
+    <Compile Include="Stubs\TestOrganizationServiceContext.cs" />
+    <Compile Include="Stubs\TestOrganizationDetail.cs" />
+    <Compile Include="Stubs\TestOrganizationService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestCategories.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Fakes Include="Fakes\PowerShellLibrary.Crm.Provider.fakes" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CmdletProviders\CmdletProviders.csproj">
@@ -249,9 +240,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="DataSource\Generator\GenerateModel.ps1" />
-    <EmbeddedResource Include="DataSource\Playground.Entities.generated.json" />
-    <EmbeddedResource Include="DataSource\Playground.Forms.generated.json" />
+    <Fakes Include="Fakes\PowerShellLibrary.Crm.CmdletProviders.fakes" />
+    <Fakes Include="Fakes\Microsoft.Xrm.Sdk.fakes" />
     <None Include="packages.config" />
     <None Include="PreBuild.ps1" />
   </ItemGroup>
