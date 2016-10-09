@@ -11,12 +11,14 @@ Write-Host "`nRemoving Module artifacts..`n"
 Write-Host "`nModule artifacts removed.`n"
 
 If (Get-Module -ListAvailable -Name PSSCriptAnalyzer) {
-  $script = "$($ProjectDir)DynamicsCRM-Automation.ps1";
-  $report = @();
+  $hasError = $false;
 
   Try {
+    $script = "$($ProjectDir)DynamicsCRM-Automation.ps1";
+    Write-Host "Analyzing script: $($script)";
     $report = Invoke-ScriptAnalyzer -Severity Error -Path $script;
     $report | Format-Table;
+    $hasError = $report.Count -gt 0;
   }
   Catch {
     $ErrorMessage = $_.Exception.Message
@@ -25,7 +27,7 @@ If (Get-Module -ListAvailable -Name PSSCriptAnalyzer) {
     $Host.SetShouldExit(1);
   }
 
-  If ($report.Count -gt 0) {
+  If ($hasError) {
     Write-Host "The PSScriptAnalyzer found one or more errors, i.e. quality gate not passed.";
     $Host.SetShouldExit(1);
   }
