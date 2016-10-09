@@ -21,9 +21,7 @@ If (Get-Module -ListAvailable -Name PSSCriptAnalyzer) {
     $hasError = $report.Count -gt 0;
   }
   Catch {
-    $errorMessage = $_.Exception.Message
-    Write-Host "Failed to analyze scripts. $rrrorMessage";
-    $Host.SetShouldExit(1);
+    Write-Host "Failed to analyze scripts.";
   }
 
   If ($hasError) {
