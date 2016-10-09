@@ -9,7 +9,6 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
 
   public class DiscoveryServiceAdapter : IDiscoveryServiceAdapter {
     private readonly ClientCredentials _clientCredentials;
-    private bool _isConnected;
     public string Url { get; }
 
     public DiscoveryServiceAdapter(string discoveryServiceUrl, string userName, string password) {

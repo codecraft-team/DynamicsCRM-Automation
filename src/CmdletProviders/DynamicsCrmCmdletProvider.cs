@@ -13,12 +13,16 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
     }
 
     protected override PSDriveInfo NewDrive(PSDriveInfo drive) {
-      Contract.Requires<InvalidOperationException>(null != DynamicParameters, "DynamicParameters required to create new PSDrive.");
-      Contract.Requires<InvalidOperationException>(DynamicParameters is CrmDriveParameter, "DynamicParameters must be an instance of CrmDriveParameter.");
-      Contract.Requires<InvalidOperationException>(null != ((CrmDriveParameter)DynamicParameters).DiscoveryServiceAdapter, "DiscoveryServiceAdapter parameter required to initialize new drive.");
-      Contract.Requires<InvalidOperationException>(null != ((CrmDriveParameter)DynamicParameters).OrganizationServiceAdapters, "OrganizationServiceAdapters parameter required to initialize new drive.");
+      ThrowInvalidOperation();
 
       return new CrmDriveInfo(drive, (CrmDriveParameter)DynamicParameters);
+    }
+
+    private void ThrowInvalidOperation() {
+      Contract.Requires<InvalidOperationException>(null != DynamicParameters, "DynamicParameters required to create new PSDrive.");
+      Contract.Requires<InvalidOperationException>(DynamicParameters is CrmDriveParameter, "DynamicParameters must be an instance of CrmDriveParameter.");
+      Contract.Requires<InvalidOperationException>(null != ((CrmDriveParameter) DynamicParameters).DiscoveryServiceAdapter, "DiscoveryServiceAdapter parameter required to initialize new drive.");
+      Contract.Requires<InvalidOperationException>(null != ((CrmDriveParameter) DynamicParameters).OrganizationServiceAdapters, "OrganizationServiceAdapters parameter required to initialize new drive.");
     }
 
     private CrmPath GetCrmPath(string path) {

@@ -21,8 +21,6 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     }
 
     public override void RemoveItem(object value) {
-      Contract.Requires<InvalidOperationException>(null != CrmFormControl);
-
       CrmFormControl.Remove();
 
       Logger.WriteVerbose($"Control {CrmFormControl.Xml} of {AttributeLogicalName} attribute removed from {Parent.Parent.CrmForm.Name} form.");
