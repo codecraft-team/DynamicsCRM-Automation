@@ -21,12 +21,12 @@ If (Get-Module -ListAvailable -Name PSSCriptAnalyzer) {
     $ErrorMessage = $_.Exception.Message
     $FailedItem = $_.Exception.ItemName
     Write-Error "Failed to analyze scripts. Failed on $FailedItem. The error message was $ErrorMessage"
-    exit 1;
+    $Host.SetShouldExit(1);
   }
 
   If ($report.Count -gt 0) {
+    Write-Host "The PSScriptAnalyzer found one or more errors, i.e. quality gate not passed.";
     $Host.SetShouldExit(1);
-    exit 1;
   }
 } 
 Else {
