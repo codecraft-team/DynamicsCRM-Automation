@@ -14,18 +14,19 @@ If (Get-Module -ListAvailable -Name PSSCriptAnalyzer) {
   $scripts = @("$($ProjectDir)DynamicsCRM-Automation.ps1");
   
   Try {
-    $scripts | % { Write-Host ("Analyzing script: {0}" -f $_) };
-    $report = $scripts | Invoke-ScriptAnalyzer -Severity Error;
+    $report = $scripts | % { Invoke-ScriptAnalyzer -Severity Error -Path $_ };
     $report | Format-Table;
   }
   Catch {
     $ErrorMessage = $_.Exception.Message
     $FailedItem = $_.Exception.ItemName
     Write-Error "Failed to analyze scripts. Failed on $FailedItem. The error message was $ErrorMessage"
+    exit 1;
   }
 
   If ($report.Count -gt 0) {
     $Host.SetShouldExit(1);
+    exit 1;
   }
 } 
 Else {
