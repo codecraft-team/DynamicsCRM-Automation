@@ -5,13 +5,22 @@ using System.Management.Automation;
 namespace PowerShellLibrary.Crm.CmdletProviders {
   public class Logger {
     private static DynamicsCrmCmdletProvider _provider;
+    private static DateTime? _previousDebugMessageTime;
 
     public static void RegisterProvider(DynamicsCrmCmdletProvider provider) {
       _provider = provider;
       }
 
     public static void WriteDebug(string message) {
-      Write(provider => provider?.WriteDebug(message));
+      Write(provider => provider?.WriteDebug(AddTimestamp(message)));
+    }
+
+    private static string AddTimestamp(string message) {
+      DateTime currentMessageTime = DateTime.Now;
+      TimeSpan elapsed = _previousDebugMessageTime.HasValue ? currentMessageTime.Subtract(_previousDebugMessageTime.Value) : TimeSpan.Zero;
+      _previousDebugMessageTime = currentMessageTime;
+
+      return $"{DateTime.Now:HH:mm:ss.fff} +{elapsed.TotalSeconds:0.000}: {message}";
     }
 
     public static void WriteWarning(string message) {
@@ -24,7 +33,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
         writeAction(_provider);
       }
       catch (Exception e) {
-        Debug.WriteLine(e.Message);
+        Debug.WriteLine($"{DateTime.Now:HH:mm:ss.fff} {e.Message}" );
       }
     }
 

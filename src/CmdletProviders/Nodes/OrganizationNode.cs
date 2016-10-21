@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.Xrm.Sdk.Discovery;
 
 namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
   public class OrganizationNode : NodeBase {
     public DiscoveryNode Parent { get; set; }
-    public OrganizationDetail Organization { get; set; } 
+    public OrganizationDetail Organization { get; set; }
 
     public OrganizationNode(DiscoveryNode parent, OrganizationDetail organization) : base(parent.NodeContext, organization, GetPathName(organization)) {
       Parent = parent;
       Organization = organization;
-      Path = $"{parent.Path}\\{GetPathName(organization)}";
+      PathSegment = parent.PathSegment + new PathSegment(GetPathName(organization));
     }
 
     public override IEnumerable<NodeBase> GetChildNodes() {
@@ -18,6 +17,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
         new EntitiesNode(this),
         new WebResourcesNode(this),
         new PluginAssembliesNode(this),
+        new PluginStepsNode(this),
         new AdvancedFindNode(this)
       };
 

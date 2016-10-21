@@ -3,7 +3,7 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Query;
 
 namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
-  public class StubOrganizationService : IOrganizationService {
+  public class TestOrganizationService : IOrganizationService {
 
     public Guid Create(Entity entity) {
       throw new NotImplementedException();

@@ -9,7 +9,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
 
     public EntityMetadataNode(EntitiesNode parent, EntityMetadata value) : base(parent.NodeContext, value, value.LogicalName) {
       Parent = parent;
-      Path = $"{parent.Path}\\{value.LogicalName}";
+      PathSegment = parent.PathSegment + new PathSegment(value.LogicalName);
       Forms = new FormsNode(this);
       EntityMetadata = value;
     }

@@ -14,8 +14,8 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests {
         )
         $env:PSModulePath = ""$env:PSModulePath;{ConfigurationManager.AppSettings["TestedModuleDirectory"]}"";
         Import-Module DynamicsCRM-Automation;
-        $driveInfo = New-PSDrive -PSProvider CRM -Name {driveName} -Root """" -DiscoveryServiceAdapter $discoveryServiceAdapter -OrganizationServiceAdapters $organizationServiceAdapters;
-        sl CRMLocal:;");
+        $driveInfo = New-PSDrive -PSProvider CRM -Name {driveName} -Root """" -DiscoveryServiceAdapter $discoveryServiceAdapter -OrganizationServiceAdapters $organizationServiceAdapters;");
+
       powerShell.AddParameter("discoveryServiceAdapter", new PSObject(discoveryServiceAdapter));
       powerShell.AddParameter("organizationServiceAdapters", new PSObject(organizationServiceAdapters?.ToArray()));
 

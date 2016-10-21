@@ -10,7 +10,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders
   [GeneratedCode("CrmSvcUtil", "7.1.0001.3108")]
   [DataContract]
   [Microsoft.Xrm.Sdk.Client.EntityLogicalName("plugintype")]
-  public class PluginType : Entity, INotifyPropertyChanging, INotifyPropertyChanged
+  public partial class PluginType : Entity, INotifyPropertyChanging, INotifyPropertyChanged
   {
     public const string EntityLogicalName = "plugintype";
     public const int EntityTypeCode = 4602;

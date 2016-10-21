@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using Microsoft.Xrm.Sdk.Discovery;
 
 namespace PowerShellLibrary.Crm.CmdletProviders.Tests.Stubs {
-  public class StubDiscoveryServiceAdapter : IDiscoveryServiceAdapter {
+  public class TestDiscoveryServiceAdapter : IDiscoveryServiceAdapter {
     private readonly string _discoveryServiceUrl;
     public List<OrganizationDetail> OrganizationDetails { get; set; }
     public string Url { get; set; }
 
-    public StubDiscoveryServiceAdapter(string discoveryServiceUrl) {
+    public TestDiscoveryServiceAdapter(string discoveryServiceUrl) {
       _discoveryServiceUrl = discoveryServiceUrl;
     }
 

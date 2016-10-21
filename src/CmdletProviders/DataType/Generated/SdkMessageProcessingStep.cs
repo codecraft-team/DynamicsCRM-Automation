@@ -10,7 +10,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders
   [Microsoft.Xrm.Sdk.Client.EntityLogicalName("sdkmessageprocessingstep")]
   [DataContract]
   [GeneratedCode("CrmSvcUtil", "7.1.0001.3108")]
-  public class SdkMessageProcessingStep : Entity, INotifyPropertyChanging, INotifyPropertyChanged
+  public partial class SdkMessageProcessingStep : Entity, INotifyPropertyChanging, INotifyPropertyChanged
   {
     public const string EntityLogicalName = "sdkmessageprocessingstep";
     public const int EntityTypeCode = 4608;

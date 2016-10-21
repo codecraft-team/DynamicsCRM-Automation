@@ -9,7 +9,6 @@ using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
 using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Tooling.Connector;
-using PowerShellLibrary.Crm.CmdletProviders.Extensions;
 
 namespace PowerShellLibrary.Crm.CmdletProviders {
   public class OrganizationServiceAdapter : IOrganizationServiceAdapter {
@@ -44,46 +43,86 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
     }
 
     public virtual IEnumerable<PluginAssembly> RetrievePluginAssemblies() {
-      QueryExpression queryExpression = new QueryExpression();
-      queryExpression.ColumnSet = new ColumnSet("name", "createdon", "modifiedon", "customizationlevel", "pluginassemblyid", "sourcetype", "path", "version", "publickeytoken", "culture", "isolationmode", "description", "modifiedby");
+      const string pluginsQuery = @"<fetch distinct=""false"" no-lock=""true"" mapping=""logical"" page=""1"" count=""250"" returntotalrecordcount=""true"">
+        <entity name=""pluginassembly"">
+          <attribute name=""name"" />
+          <attribute name=""version"" />
+          <attribute name=""culture"" />
+          <attribute name=""publickeytoken"" />
+          <attribute name=""isolationmode"" />
+          <attribute name=""createdon"" />
+          <attribute name=""modifiedon"" />
+          <attribute name=""modifiedby"" />
+          <attribute name=""description"" />
+          <filter type=""and"">
+            <condition attribute=""ishidden"" operator=""ne"" value=""1"" />
+          </filter>
+          <order attribute=""name"" descending=""false"" />
+        </entity>
+      </fetch>";
 
-      FilterExpression filterExpression1 = new FilterExpression();
-      queryExpression.Criteria = filterExpression1;
-
-      filterExpression1.AddCondition("name", ConditionOperator.NotLike, (object) "CompiledWorkflow%");
-      FilterExpression filterExpression2 = filterExpression1.AddFilter(LogicalOperator.Or);
-      filterExpression2.AddCondition("customizationlevel", ConditionOperator.Null);
-      filterExpression2.AddCondition("customizationlevel", ConditionOperator.NotEqual, (object) 0);
-      filterExpression2.AddCondition("name", ConditionOperator.In, "Microsoft.Crm.ObjectModel", (object) "Microsoft.Crm.ServiceBus");
-
-      queryExpression.EntityName = "pluginassembly";
-
-      IOrganizationService organizationService = CreateCrmServiceClient();
-      EntityCollection response = organizationService.RetrieveMultiple(queryExpression);
-
-      return response.Entities.Select(p => p.ToEntity<PluginAssembly>());
+      return RetrieveMultiple<PluginAssembly>(pluginsQuery);
     }
 
-    public virtual IEnumerable<PluginType> RetrievePluginSteps(Guid assemblyId) {
-      QueryExpression queryExpression = new QueryExpression("plugintype");
-      queryExpression.ColumnSet = new ColumnSet("plugintypeid", "friendlyname", "createdon", "modifiedon", "customizationlevel", "assemblyname", "typename", "pluginassemblyid", "isworkflowactivity", "name", "description", "workflowactivitygroupname", "ismanaged");
-      queryExpression.Criteria = new FilterExpression();
-      queryExpression.Criteria.AddCondition("typename", ConditionOperator.NotLike, (object) "Compiled.Workflow%");
-      FilterExpression filterExpression = queryExpression.Criteria.AddFilter(LogicalOperator.Or);
-      filterExpression.AddCondition("customizationlevel", ConditionOperator.Null);
-      filterExpression.AddCondition("customizationlevel", ConditionOperator.NotEqual, (object) 0);
-      filterExpression.AddCondition("typename", ConditionOperator.In, (object) "Microsoft.Crm.Extensibility.InternalOperationPlugin", (object) "Microsoft.Crm.Extensibility.V3CalloutProxyPlugin", (object) "Microsoft.Crm.ServiceBus.ServiceBusPlugin");
+    public virtual IEnumerable<PluginType> RetrievePluginTypes(Guid assemblyId) {
+      string pluginTypesFetch = $@"<fetch distinct=""false"" no-lock=""true"" mapping=""logical"" page=""1"" count=""250"" returntotalrecordcount=""true"">
+        <entity name=""plugintype"">
+          <attribute name=""friendlyname"" />
+          <attribute name=""typename"" />
+          <attribute name=""isworkflowactivity"" />
+          <attribute name=""createdon"" />
+          <attribute name=""modifiedon"" />
+          <attribute name=""description"" />
+          <filter type=""and"">
+            <condition attribute=""pluginassemblyid"" operator=""eq"" value=""{assemblyId}"" />
+          </filter>
+          <order attribute=""friendlyname"" descending=""false"" />
+        </entity>
+      </fetch>";
 
-      FilterExpression filterExpression1 = new FilterExpression();
-      ConditionExpression condition = new ConditionExpression("pluginassemblyid", ConditionOperator.In);
-      condition.Values.Add(assemblyId);
-      filterExpression1.AddCondition(condition);
-      queryExpression.AddLink("pluginassembly", "pluginassemblyid", "pluginassemblyid").LinkCriteria = filterExpression1;
+      return RetrieveMultiple<PluginType>(pluginTypesFetch);
+    }
 
+    public virtual IEnumerable<SdkMessageProcessingStep> RetrievePluginSteps() {
+      const string pluginStepsFetch = @"<fetch distinct=""false"" no-lock=""true"" mapping=""logical"" page=""1"" count=""2500"" returntotalrecordcount=""true"">
+        <entity name=""sdkmessageprocessingstep"">
+          <attribute name=""statuscode"" />
+          <attribute name=""name"" />
+          <attribute name=""sdkmessageid"" />
+          <attribute name=""eventhandler"" />
+          <attribute name=""rank"" />
+          <attribute name=""stage"" />
+          <attribute name=""mode"" />
+          <attribute name=""statecode"" />
+          <attribute name=""ismanaged"" />
+          <attribute name=""iscustomizable"" />
+          <attribute name=""supporteddeployment"" />
+          <attribute name=""description"" />
+          <order attribute=""name"" descending=""false"" />
+          <filter type=""and"">
+            <condition attribute=""ishidden"" operator=""ne"" value=""1"" />
+            <filter type=""or"">
+              <condition attribute=""iscustomizable"" operator=""eq"" value=""1"" />
+              <condition attribute=""ismanaged"" operator=""eq"" value=""0"" />
+            </filter>
+          </filter>
+          <link-entity name=""sdkmessagefilter"" to=""sdkmessagefilterid"" from=""sdkmessagefilterid"" link-type=""outer"" alias=""a1"">
+            <attribute name=""primaryobjecttypecode"" />
+          </link-entity>
+          <link-entity name=""sdkmessage"" to=""sdkmessageid"" from=""sdkmessageid"" link-type=""outer"" alias=""a2"">
+            <attribute name=""name"" />
+          </link-entity>
+        </entity>
+      </fetch>";
+
+      return RetrieveMultiple<SdkMessageProcessingStep>(pluginStepsFetch);
+    }
+
+    private IEnumerable<TEntity> RetrieveMultiple<TEntity>(string fetchXml) where TEntity : Entity {
       IOrganizationService organizationService = CreateCrmServiceClient();
-      EntityCollection response = organizationService.RetrieveMultiple(queryExpression);
+      EntityCollection response = organizationService.RetrieveMultiple(new FetchExpression(fetchXml));
 
-      return response.Entities.Select(p => p.ToEntity<PluginType>());
+      return response.Entities.Select(p => p.ToEntity<TEntity>());
     }
 
     private CrmServiceClient CreateCrmServiceClient() {
@@ -103,7 +142,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
         RetrieveAllEntitiesResponse response = (RetrieveAllEntitiesResponse) organizationService.Execute(new RetrieveAllEntitiesRequest {
           EntityFilters = EntityFilters.Entity
         });
-        return response.EntityMetadata;
+        return response.EntityMetadata.Where(e => (e.IsIntersect == null || !e.IsIntersect.Value) && (e.IsPrivate == null || !e.IsPrivate.Value) && e.LogicalName != "principalobjectaccess");
       }
     }
 
@@ -122,7 +161,8 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
     }
 
     public virtual IEnumerable<AttributeMetadata> RetrieveAttributes(string entityLogicalName) {
-      return RetrieveEntityMetadata(entityLogicalName, EntityFilters.Attributes).Attributes;
+      AttributeMetadata[] attributes = RetrieveEntityMetadata(entityLogicalName, EntityFilters.Attributes).Attributes;
+      return attributes.Where(attribute => attribute.AttributeOf == null && attribute.LogicalName != "isprivate").OrderBy(p => p.LogicalName);
     }
 
     public IEnumerable<OneToManyRelationshipMetadata> RetrieveOneToManyRelationships(string entityLogicalName) {
@@ -155,12 +195,14 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
       }
     }
 
-    public RetrieveDependenciesForDeleteResponse RetrieveDependencies(ComponentType componentType, Guid objectId) {
+    public IEnumerable<Dependency> RetrieveDependencies(ComponentType componentType, Guid objectId) {
       using (OrganizationServiceProxy organizationService = CreateOrganizationService()) {
-        return (RetrieveDependenciesForDeleteResponse) organizationService.Execute(new RetrieveDependenciesForDeleteRequest {
+        RetrieveDependenciesForDeleteResponse response = (RetrieveDependenciesForDeleteResponse) organizationService.Execute(new RetrieveDependenciesForDeleteRequest {
           ComponentType = (int) componentType,
           ObjectId = objectId
         });
+
+        return response.EntityCollection.Entities.Select(e => e.ToEntity<Dependency>());
       }
     }
 
@@ -168,42 +210,41 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
       throw new NotImplementedException();
     }
 
-    public virtual IEnumerable<Entity> RetrieveFilteredForms(string entityLogicalName) {
-      List<Entity> result = new List<Entity>();
+    public virtual IEnumerable<CrmForm> RetrieveFilteredForms(EntityMetadata entityMetadata) {
+      string formsFetch = $@"<fetch distinct=""true"" no-lock=""true"" mapping=""logical"" page=""1"" count=""250"" returntotalrecordcount=""true"">
+        <entity name=""systemform"">
+          <attribute name=""formid"" />
+          <attribute name=""name"" />
+          <attribute name=""formactivationstate"" />
+          <attribute name=""ismanaged"" />
+          <attribute name=""iscustomizable"" />
+          <attribute name=""introducedversion"" />
+          <attribute name=""description"" />
+          <attribute name=""type"" />
+          <attribute name=""formxml"" />
+          <filter type=""and"">
+            <condition attribute=""objecttypecode"" operator=""eq"" value=""{entityMetadata.ObjectTypeCode.GetValueOrDefault()}"" />
+            <filter type=""and"">
+              <condition attribute=""type"" operator=""in"">
+                <value>1</value>
+                <value>2</value>
+                <value>4</value>
+                <value>5</value>
+                <value>6</value>
+                <value>7</value>
+                <value>11</value>
+                <value>12</value>
+              </condition>
+            </filter>
+            <filter type=""and"">
+              <condition attribute=""formactivationstate"" operator=""eq"" value=""1"" />
+            </filter>
+          </filter>
+          <order attribute=""name"" descending=""false"" />
+        </entity>
+      </fetch>";
 
-      using (OrganizationServiceProxy organizationService = CreateOrganizationService()) {
-        WhoAmIResponse whoAmIResponse = (WhoAmIResponse) organizationService.Execute(new WhoAmIRequest());
-
-        Func<FormTypeId, IEnumerable<Entity>> retrieveForms = formTypeId => RetrieveFilteredForms(entityLogicalName, whoAmIResponse.UserId, formTypeId, organizationService);
-
-        retrieveForms(FormTypeId.Main).ForEach(result.Add);
-        retrieveForms(FormTypeId.Mobile).ForEach(result.Add);
-        retrieveForms(FormTypeId.Other).ForEach(result.Add);
-
-        return result;
-      }
-    }
-
-    private IEnumerable<Entity> RetrieveFilteredForms(string entityLogicalName, Guid userId, FormTypeId formTypeId, IOrganizationService organizationService) {
-      RetrieveFilteredFormsResponse filteredFormsResponse = (RetrieveFilteredFormsResponse) organizationService.Execute(new RetrieveFilteredFormsRequest {
-        FormType = new OptionSetValue((int) formTypeId),
-        SystemUserId = userId,
-        EntityLogicalName = entityLogicalName
-      });
-
-      if (filteredFormsResponse.SystemForms.Any()) {
-        QueryExpression query = new QueryExpression("systemform") {
-          ColumnSet = new ColumnSet(true)
-        };
-        query.Criteria.AddCondition("formid", ConditionOperator.In, filteredFormsResponse.SystemForms.Select(p => p.Id).Cast<object>().ToArray());
-        EntityCollection formDetails = ((RetrieveMultipleResponse) organizationService.Execute(new RetrieveMultipleRequest {
-          Query = query
-        })).EntityCollection;
-
-        return formDetails.Entities;
-      }
-
-      return new Entity[0];
+      return RetrieveMultiple<CrmForm>(formsFetch);
     }
 
     public OrganizationServiceContext CreateContext() {

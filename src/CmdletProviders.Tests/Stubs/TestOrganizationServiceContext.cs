@@ -4,10 +4,10 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
 
 namespace PowerShellLibrary.Crm.CmdletProviders.Tests.Stubs {
-  public class StubOrganizationServiceContext : OrganizationServiceContext {
+  public class TestOrganizationServiceContext : OrganizationServiceContext {
     public Dictionary<string, IQueryable<Entity>> Entities { get; set; }
 
-    public StubOrganizationServiceContext(IOrganizationService service) : base(service) {
+    public TestOrganizationServiceContext(IOrganizationService service) : base(service) {
       Entities = new Dictionary<string, IQueryable<Entity>>();
     }
 

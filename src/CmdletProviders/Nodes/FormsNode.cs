@@ -9,11 +9,11 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
 
     public FormsNode(EntityMetadataNode parent) : base(parent.NodeContext, null, NodeName) {
       Parent = parent;
-      Path = $"{parent.Path}\\{NodeName}";
+      PathSegment = parent.PathSegment + new PathSegment(NodeName);
     }
 
     public override IEnumerable<NodeBase> GetChildNodes() {
-      IEnumerable<Entity> forms = GetOrganizationServiceAdapter().RetrieveFilteredForms(Parent.Name);
+      IEnumerable<CrmForm> forms = GetOrganizationServiceAdapter().RetrieveFilteredForms(Parent.EntityMetadata);
       return forms.Select(form => new FormMetadataNode(this, form));
     }
   }

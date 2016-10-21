@@ -9,24 +9,24 @@ using Microsoft.Xrm.Sdk.Discovery;
 using Microsoft.Xrm.Sdk.Metadata;
 
 namespace PowerShellLibrary.Crm.CmdletProviders.Tests.Stubs {
-  public class StubOrganizationServiceAdapter : IOrganizationServiceAdapter {
+  public class TestOrganizationServiceAdapter : IOrganizationServiceAdapter {
     public string OrganizationFriendlyName { get; }
     public List<EntityMetadata> EntityMetadataDetail { get; set; }
-    public Dictionary<string, List<Entity>> Forms { get; set; }
+    public Dictionary<string, List<CrmForm>> Forms { get; set; }
     public Dictionary<string, List<AttributeMetadata>> Fields { get; set; }
     public Dictionary<string, List<OneToManyRelationshipMetadata>> ManyToOneRelationships { get; set; }
     public Dictionary<string, List<OneToManyRelationshipMetadata>> OneToManyRelationships { get; set; }
     public Dictionary<string, List<ManyToManyRelationshipMetadata>> ManyToManyRelationships { get; set; }
     public Dictionary<string, List<Entity>> Entities { get; set; }
 
-    public StubOrganizationServiceAdapter(string organizationFriendlyName) {
+    public TestOrganizationServiceAdapter(string organizationFriendlyName) {
       OrganizationFriendlyName = organizationFriendlyName;
       EntityMetadataDetail = new List<EntityMetadata>();
-      Forms = new Dictionary<string, List<Entity>>();
+      Forms = new Dictionary<string, List<CrmForm>>();
     }
 
     public IOrganizationService CreateOrganizationService(OrganizationDetail organizationDetail) {
-      return new StubOrganizationService();
+      return new TestOrganizationService();
     }
 
     public void Initialize(OrganizationDetail organizationDetail) {
@@ -76,12 +76,12 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests.Stubs {
       throw new NotImplementedException();
     }
 
-    public RetrieveDependenciesForDeleteResponse RetrieveDependencies(ComponentType componentType, Guid objectId) {
+    public IEnumerable<Dependency> RetrieveDependencies(ComponentType componentType, Guid objectId) {
       throw new NotImplementedException();
     }
 
     public OrganizationServiceContext CreateContext() {
-      return new StubOrganizationServiceContext(new StubOrganizationService()) {
+      return new TestOrganizationServiceContext(new TestOrganizationService()) {
         Entities = Entities.ToDictionary(e => e.Key, e => e.Value.AsQueryable())
       };
     }
@@ -102,12 +102,16 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Tests.Stubs {
       throw new NotImplementedException();
     }
 
-    public IEnumerable<PluginType> RetrievePluginSteps(Guid assemblyId) {
+    public IEnumerable<PluginType> RetrievePluginTypes(Guid assemblyId) {
       throw new NotImplementedException();
     }
 
-    public IEnumerable<Entity> RetrieveFilteredForms(string entityLogicalName) {
-      return Forms[entityLogicalName];
+    public IEnumerable<SdkMessageProcessingStep> RetrievePluginSteps() {
+      throw new NotImplementedException();
+    }
+
+    public IEnumerable<CrmForm> RetrieveFilteredForms(EntityMetadata entityMetadata) {
+      return Forms[entityMetadata.LogicalName];
     }
   }
 

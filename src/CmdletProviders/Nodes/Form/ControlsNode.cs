@@ -10,11 +10,11 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
 
     public ControlsNode(FormMetadataNode parent) : base(parent.NodeContext, null, NodeName) {
       Parent = parent;
-      Path = $"{parent.Path}\\{NodeName}";
+      PathSegment = parent.PathSegment + new PathSegment(Name);
     }
 
     public override IEnumerable<NodeBase> GetChildNodes() {
-      return Parent.FormXml.Descendants(XName.Get("control")).Select(controlElement => new ControlNode(this, controlElement));
+      return Parent.CrmForm.GetControls().Select(control => new ControlNode(this, control));
     }
 
     public IEnumerable<ControlNode> GetAttributeControls(string attributeLogicalName) {

@@ -10,40 +10,36 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
   public class CrmPath {
     private readonly Dictionary<string, NodeBase> _nodes;
     private readonly NodeContext _nodeContext;
-    private const string RootPath = "";
 
-    public IReadOnlyDictionary<string, NodeBase> Providers => new ReadOnlyDictionary<string, NodeBase>(_nodes);
     public NodeBase this[string path] => _nodes[path];
     public NodeBase CurrentNode { get; private set; }
 
     public CrmPath(NodeContext nodeContext) {
       Contract.Requires<ArgumentNullException>(null != nodeContext, "nodeContext");
 
-      _nodes = new Dictionary<string, NodeBase>();
+      _nodes = new Dictionary<string, NodeBase>(new NodeKeyEqualityComparer());
       _nodeContext = nodeContext;
 
       CreateNodes();
     }
 
-    private NodeBase GetNode(string pathSegment) {
-      if (!_nodes.ContainsKey(pathSegment)) {
-        return new NotSupportedNode(pathSegment);
+    private NodeBase GetNode(string path) {
+      if(!NodesContainsKey(path)) {
+        return new NotSupportedNode(path);
       }
 
-      return _nodes[pathSegment];
+      return _nodes[path];
     }
 
     private void CreateNodes() {
       CurrentNode = CreateRootNode();
 
-      string[] segments = GetPathWithoutDriveName().Split(new[] {'\\'}, StringSplitOptions.RemoveEmptyEntries);
-      StringBuilder pathBuilder = new StringBuilder();
-      
-      foreach (string segment in segments) {
-        CurrentNode.GetChildNodes().ForEach(provider => EnsureNodeExists(provider.Path, provider));
+      IEnumerable<string> paths = _nodeContext.PathSegment.GetPathDecendants();
 
-        string currentPath = pathBuilder.AppendFormat("\\{0}", segment).ToString();
-        if (_nodes.ContainsKey(currentPath)) {
+      foreach(string currentPath in paths) {
+        CurrentNode.GetChildNodes().ForEach(EnsureNodeExists);
+
+        if(NodesContainsKey(currentPath)) {
           CurrentNode = _nodes[currentPath];
         }
       }
@@ -57,8 +53,9 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     }
 
     private void SetOrganizationUrl() {
-      NodeBase organizationNode = Providers.Values.FirstOrDefault(node => node is OrganizationNode);
-      if (null == organizationNode) {
+      OrganizationNode organizationNode = _nodes.Values.OfType<OrganizationNode>().FirstOrDefault();
+
+      if(null == organizationNode) {
         return;
       }
 
@@ -66,13 +63,14 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     }
 
     private void SetDeploymentUrl() {
-      NodeBase deploymentNode = Providers.Values.FirstOrDefault(node => node is DiscoveryNode);
-      if (null == deploymentNode) {
+      NodeBase deploymentNode = _nodes.Values.FirstOrDefault(node => node is DiscoveryNode);
+
+      if(null == deploymentNode) {
         return;
       }
 
       string prompt = null;
-      if (_nodeContext.CrmDrive.DiscoveryServiceAdapter.IsDiscoverable()) {
+      if(_nodeContext.CrmDrive.DiscoveryServiceAdapter.IsDiscoverable()) {
         prompt = _nodeContext.CrmDrive.DiscoveryServiceAdapter.Url?.Replace("/XRMServices/2011/Discovery.svc", string.Empty);
       }
 
@@ -81,12 +79,14 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     }
 
     private NodeBase CreateRootNode() {
-      EnsureNodeExists(RootPath, new DiscoveryNode(_nodeContext));
-      return GetNode(RootPath);
+      EnsureNodeExists(new DiscoveryNode(_nodeContext));
+      return GetNode(PathSegment.RootPath);
     }
 
-    private void EnsureNodeExists(string key, NodeBase node) {
-      if (!_nodes.ContainsKey(key)) {
+    private void EnsureNodeExists(NodeBase node) {
+      string key = node.PathSegment.Path;
+
+      if(!NodesContainsKey(key)) {
         _nodes.Add(key, node);
       }
       else {
@@ -94,8 +94,8 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
       }
     }
 
-    private string GetPathWithoutDriveName() {
-      return _nodeContext.Path.Split(new[] {':'}).Last();
+    private bool NodesContainsKey(string key) {
+      return _nodes.ContainsKey(key);
     }
   }
 }

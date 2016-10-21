@@ -8,7 +8,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders.Nodes {
     public EntityNode(AdvancedFindNode parent, Entity value) : base(parent.NodeContext, value, GetPrimaryAttribute(value)) {
       IsContainer = false;
       Parent = parent;
-      Path = $"{parent.Path}\\{Name}";
+      PathSegment = parent.PathSegment + new PathSegment(Name);
     }
 
     private static string GetPrimaryAttribute(Entity entity) {

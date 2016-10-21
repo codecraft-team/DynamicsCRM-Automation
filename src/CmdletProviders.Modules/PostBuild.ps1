@@ -4,17 +4,29 @@ param (
   [string]$ProjectDir
 )
 
-Write-Host "`nRemoving Module artifacts..`n"
+Write-Host "`nRemoving Module artifacts..`n";
 
 @("$TargetDir\$targetName.dll", "$TargetDir\$targetName.pdb") | Remove-Item -Force -Verbose;
 
-Write-Host "`nModule artifacts removed.`n"
+Write-Host "`nModule artifacts removed.`n";
 
-If (Get-Module -ListAvailable -Name PSSCriptAnalyzer) {
-  $report = @("$ProjectDir\DynamicsCRM-Automation.ps1") | Invoke-ScriptAnalyzer -Severity Error;
-  $report | Format-Table;
+If (Get-Module -ListAvailable -Name PSScriptAnalyzer) {
+  $hasError = $false;
 
-  If ($report.Count -gt 0) {
+  Try {
+    $script = "$($ProjectDir)DynamicsCRM-Automation.ps1";
+    Write-Host "Analyzing script: $($script)";
+    $report = Invoke-ScriptAnalyzer -Severity Error -Path $script;
+    $report | Format-Table;
+    $hasError = $report.Count -gt 0;
+  }
+  Catch {
+    $errorMessage = $_.Exception.Message;
+    Write-Host "Failed to analyze scripts. $($errorMessage)";
+  }
+
+  If ($hasError) {
+    Write-Host "The PSScriptAnalyzer found one or more errors, i.e. quality gate not passed.";
     $Host.SetShouldExit(1);
   }
 } 

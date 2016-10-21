@@ -52,18 +52,83 @@
     <View>
       <Name>Entity Metadata View</Name>
       <ViewSelectedBy>
-        <TypeName>Microsoft.Xrm.Sdk.Metadata.MetadataBase</TypeName>
+        <TypeName>Microsoft.Xrm.Sdk.Metadata.EntityMetadata</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
-            <Label>LogicalName</Label>
+            <Label>Display Name</Label>
+            <Width>35</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Logical Name</Label>
             <Width>30</Width>
             <Alignment>left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>SchemaName</Label>
+            <Label>Schema Name</Label>
             <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Customizable</Label>
+            <Width>13</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Audit Status</Label>
+            <Width>12</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <ScriptBlock>$_.DisplayName.UserLocalizedLabel.Label</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>LogicalName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>SchemaName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.IsCustomizable.Value</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.IsAuditEnabled.Value</ScriptBlock>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>Attribute Metadata View</Name>
+      <ViewSelectedBy>
+        <TypeName>Microsoft.Xrm.Sdk.Metadata.AttributeMetadata</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Width>30</Width>
+            <Label>Logical Name</Label>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Schema Name</Label>
+            <Width>30</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Display Name</Label>
+            <Width>35</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Type</Label>
             <Alignment>left</Alignment>
           </TableColumnHeader>
         </TableHeaders>
@@ -75,6 +140,12 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>SchemaName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.DisplayName.UserLocalizedLabel.Label</ScriptBlock>
+              </TableColumnItem>
+              <TableColumnItem>
+                <ScriptBlock>$_.AttributeTypeName.Value</ScriptBlock>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -122,27 +193,32 @@
         <TableHeaders>
           <TableColumnHeader>
             <Label>Name</Label>
-            <Width>45</Width>
-            <Alignment>left</Alignment>
-          </TableColumnHeader>
-          <TableColumnHeader>
-            <Label>Isolation</Label>
-            <Width>10</Width>
+            <Width>40</Width>
             <Alignment>left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Version</Label>
-            <Width>10</Width>
+            <Width>11</Width>
             <Alignment>left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
-            <Label>Modified By</Label>
-            <Width>20</Width>
+            <Label>Public Key Token</Label>
+            <Width>17</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Isolation</Label>
+            <Width>9</Width>
             <Alignment>left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Modified On</Label>
-            <Width>15</Width>
+            <Width>21</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Modified By</Label>
+            <Width>14</Width>
             <Alignment>left</Alignment>
           </TableColumnHeader>
         </TableHeaders>
@@ -153,16 +229,19 @@
                 <PropertyName>Name</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
-                <PropertyName>IsolationModeFormatted</PropertyName>
-              </TableColumnItem>
-              <TableColumnItem>
                 <PropertyName>Version</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
-                <PropertyName>ModifiedByFormatted</PropertyName>
+                <PropertyName>PublicKeyToken</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
-                <PropertyName>ModifiedOn</PropertyName>
+                <PropertyName>IsolationModeFormatted</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ModifiedOnFormatted</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ModifiedByFormatted</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -170,20 +249,30 @@
       </TableControl>
     </View>
     <View>
-      <Name>Plugin Step View</Name>
+      <Name>Plugin Types</Name>
       <ViewSelectedBy>
         <TypeName>PowerShellLibrary.Crm.CmdletProviders.PluginType</TypeName>
       </ViewSelectedBy>
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
+            <Label>Display Name</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>Type Name</Label>
-            <Width>70</Width>
+            <Width>45</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>IsWorkflow</Label>
+            <Width>10</Width>
             <Alignment>left</Alignment>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>Modified On</Label>
-            <Width>30</Width>
+            <Width>19</Width>
             <Alignment>left</Alignment>
           </TableColumnHeader>
         </TableHeaders>
@@ -191,10 +280,128 @@
           <TableRowEntry>
             <TableColumnItems>
               <TableColumnItem>
+                <PropertyName>FriendlyName</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
                 <PropertyName>TypeName</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
-                <PropertyName>ModifiedOn</PropertyName>
+                <PropertyName>IsWorkflowActivityFormatted</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ModifiedOnFormatted</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>Plugin Steps</Name>
+      <ViewSelectedBy>
+        <TypeName>PowerShellLibrary.Crm.CmdletProviders.SdkMessageProcessingStep</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>45</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>SDK Message</Label>
+            <Width>14</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Primary Entity</Label>
+            <Width>34</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Stage</Label>
+            <Width>14</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Enabled</Label>
+            <Width>7</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>MessageFormatted</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>PrimaryEntityFormatted</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>StageFormatted</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>StatusFormatted</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>Plugin Steps</Name>
+      <ViewSelectedBy>
+        <TypeName>PowerShellLibrary.Crm.CmdletProviders.CrmForm</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Name</Label>
+            <Width>40</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Form State</Label>
+            <Width>10</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Form Type</Label>
+            <Width>25</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>State</Label>
+            <Width>14</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Version</Label>
+            <Width>10</Width>
+            <Alignment>left</Alignment>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>FormActivationState</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Type</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>State</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Version</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>

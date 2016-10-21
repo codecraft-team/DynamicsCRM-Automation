@@ -19,6 +19,7 @@ namespace PowerShellLibrary.Crm.CmdletProviders {
         throw new PSInvalidOperationException(message);
       }
 
+      Logger.WriteDebug($"GetOrganizationServiceAdapter: {organizationFriendlyName}");
       return organizationServiceAdapter;
     }
   }
